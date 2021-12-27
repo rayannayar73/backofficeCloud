@@ -23,8 +23,16 @@ import TableList from "views/TableList.js";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
+import ListeRegions from "views/ListeRegions";
 
 var dashRoutes = [
+  {
+    path: "/listeRegions",
+    name: "Liste Regions",
+    component: ListeRegions,
+    icon: "files_paper",
+    layout: "/admin",
+  },
   {
     path: "/dashboard",
     name: "Dashboard",

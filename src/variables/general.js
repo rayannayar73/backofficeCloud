@@ -39,33 +39,32 @@ const tasks = [
 // // // table head data and table body data for Tables view
 // #############################
 
-const thead = ["Name", "Country", "City", "Salary"];
+const thead = ["Nom", "Chef de region"];
 const tbody = [
   {
     className: "table-success",
-    data: ["Dakota Rice", "Niger", "Oud-Turnhout", "$36,738"],
+    data: ["Region1", "Niger"],
   },
   {
     className: "",
-    data: ["Minerva Hooper", "Curaçao", "Sinaai-Waas", "$23,789"],
+    data: ["Region2", "Curaçao"],
   },
   {
     className: "table-info",
-    data: ["Sage Rodriguez", "Netherlands", "Baileux", "$56,142"],
+    data: ["Region3", "Netherlands"],
   },
   {
     className: "",
-    data: ["Philip Chaney", "Korea, South", "Overland Park", "$38,735"],
+    data: ["Region4", "Korea, South"],
   },
   {
     className: "table-danger",
-    data: ["Doris Greene", "Malawi", "Feldkirchen in Kärnten", "$63,542"],
+    data: ["Region5", "Malawi"],
   },
-  { className: "", data: ["Mason Porter", "Chile", "Gloucester", "$78,615"] },
-  {
-    className: "table-warning",
-    data: ["Jon Porter", "Portugal", "Gloucester", "$98,615"],
-  },
+  { className: "", 
+    data: ["Region6", "Chile"] 
+  }
+  
 ];
 
 // tasks list for Tasks card in Dashboard view
