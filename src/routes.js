@@ -25,6 +25,8 @@ import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
+import ListeUtilisateur from "views/ListeUtilisateur.js";
+import FicheUtilisateur from "views/FicheUtilisateur.jsx";
 
 var dashRoutes = [
   {
@@ -89,6 +91,20 @@ var dashRoutes = [
     icon: "design-2_ruler-pencil",
     component: FicheSignalement,
     layout: "/admin",
-  },
+    },
+    {
+        path: "/liste-utilisateur",
+        name: "liste utilisateur",
+        icon: "files_paper",
+        component: ListeUtilisateur,
+        layout: "/admin",
+    },
+    {
+        path: "/fiche-utilisateur",
+        name: "fiche utilisateur",
+        icon: "design-2_ruler-pencil",
+        component: FicheUtilisateur,
+        layout: "/admin",
+    },
 ];
 export default dashRoutes;
