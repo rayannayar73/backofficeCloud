@@ -34,7 +34,7 @@ function FixedPlugin(props) {
           <i className="fa fa-cog fa-2x" />
         </div>
         <ul className="dropdown-menu show">
-          <li className="header-title">SIDEBAR BACKGROUND</li>
+          <li className="header-title">Choire une couleur</li>
           <li className="adjustments-line">
             <div className="badge-colors text-center">
               <span

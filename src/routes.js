@@ -19,12 +19,14 @@ import Dashboard from "views/Dashboard.js";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
-import TableList from "views/TableList.js";
+import ListeRegions from "views/ListeRegions.js";
 import ListeSignalements from "views/ListeSignalement.jsx";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
+import ListeUtilisateur from "views/ListeUtilisateur.js";
+import FicheUtilisateur from "views/FicheUtilisateur.jsx";
 
 var dashRoutes = [
   {
@@ -63,10 +65,10 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
-    name: "Table List",
+    path: "/liste-regions",
+    name: "ListeRegions",
     icon: "files_paper",
-    component: TableList,
+    component: ListeRegions,
     layout: "/admin",
   },
   {
@@ -89,6 +91,20 @@ var dashRoutes = [
     icon: "design-2_ruler-pencil",
     component: FicheSignalement,
     layout: "/admin",
+  },
+  {
+      path: "/liste-utilisateur",
+      name: "liste utilisateur",
+      icon: "files_paper",
+      component: ListeUtilisateur,
+      layout: "/admin",
+  },
+  {
+      path: "/fiche-utilisateur",
+      name: "fiche utilisateur",
+      icon: "design-2_ruler-pencil",
+      component: FicheUtilisateur,
+      layout: "/admin",
   },
 ];
 export default dashRoutes;
