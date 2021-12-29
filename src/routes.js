@@ -19,7 +19,7 @@ import Dashboard from "views/Dashboard.js";
 import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
-import TableList from "views/TableList.js";
+import ListeRegions from "views/ListeRegions.js";
 import ListeSignalements from "views/ListeSignalement.jsx";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
@@ -65,10 +65,10 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    path: "/extended-tables",
-    name: "Table List",
+    path: "/liste-regions",
+    name: "ListeRegions",
     icon: "files_paper",
-    component: TableList,
+    component: ListeRegions,
     layout: "/admin",
   },
   {
