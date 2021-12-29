@@ -34,7 +34,7 @@ function FixedPlugin(props) {
           <i className="fa fa-cog fa-2x" />
         </div>
         <ul className="dropdown-menu show">
-          <li className="header-title">SIDEBAR BACKGROUND</li>
+          <li className="header-title">Choire une couleur</li>
           <li className="adjustments-line">
             <div className="badge-colors text-center">
               <span
@@ -93,29 +93,6 @@ function FixedPlugin(props) {
                 }}
               />
             </div>
-          </li>
-
-          <li className="button-container">
-            <a
-              href="https://www.creative-tim.com/product/now-ui-dashboard-pro-react?ref=nudr-fixed-plugin"
-              target="_blank"
-              className="btn btn-primary btn-block btn-round"
-            >
-              Buy pro
-            </a>
-            <a
-              href="https://www.creative-tim.com/product/now-ui-dashboard-react?ref=nudr-fixed-plugin"
-              target="_blank"
-              className="btn btn-warning btn-block btn-round"
-            >
-              Download free
-            </a>
-            <a
-              href="https://demos.creative-tim.com/now-ui-dashboard-react/#/documentation/tutorial?ref=nudr-fixed-plugin"
-              className="btn btn-block btn-round btn-info"
-            >
-              Documentation
-            </a>
           </li>
         </ul>
       </div>

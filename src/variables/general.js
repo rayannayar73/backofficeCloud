@@ -43,26 +43,26 @@ const thead = ["Nom", "Chef de region"];
 const tbody = [
   {
     className: "table-success",
-    data: ["Region1", "Niger"],
+    data: ["Region1", "Niger",],
   },
   {
     className: "",
-    data: ["Region2", "Curaçao"],
+    data: ["Region2", "Curaçao",],
   },
   {
     className: "table-info",
-    data: ["Region3", "Netherlands"],
+    data: ["Region3", "Netherlands",],
   },
   {
     className: "",
-    data: ["Region4", "Korea, South"],
+    data: ["Region4", "Korea, South",],
   },
   {
     className: "table-danger",
-    data: ["Region5", "Malawi"],
+    data: ["Region5", "Malawi",],
   },
   { className: "", 
-    data: ["Region6", "Chile"] 
+    data: ["Region6", "Chile",] ,
   }
   
 ];

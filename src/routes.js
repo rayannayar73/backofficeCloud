@@ -26,18 +26,19 @@ import UserPage from "views/UserPage.js";
 import ListeRegions from "views/ListeRegions";
 
 var dashRoutes = [
+ 
+  {
+    path: "/dashboard",
+    name: "Statistique",
+    icon: "design_app",
+    component: Dashboard,
+    layout: "/admin",
+  },
   {
     path: "/listeRegions",
     name: "Liste Regions",
     component: ListeRegions,
     icon: "files_paper",
-    layout: "/admin",
-  },
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    icon: "design_app",
-    component: Dashboard,
     layout: "/admin",
   },
   {
