@@ -64,7 +64,7 @@ function Dashboard() {
       />
       <div className="content">
         <Row>
-          <Col xs={12} md={4}>
+          {/* <Col xs={12} md={4}>
             <Card className="card-chart">
               <CardHeader>
                 <h5 className="card-category">Global Sales</h5>
@@ -101,7 +101,7 @@ function Dashboard() {
                 </div>
               </CardFooter>
             </Card>
-          </Col>
+          </Col> */}
           <Col xs={12} md={4}>
             <Card className="card-chart">
               <CardHeader>
