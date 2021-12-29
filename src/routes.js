@@ -20,25 +20,20 @@ import Notifications from "views/Notifications.js";
 import Icons from "views/Icons.js";
 import Typography from "views/Typography.js";
 import TableList from "views/TableList.js";
+import ListeSignalements from "views/ListeSignalement.jsx";
 import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
-import ListeRegions from "views/ListeRegions";
+import FicheSignalement from "views/FicheSignalement.jsx";
+import ListeUtilisateur from "views/ListeUtilisateur.js";
+import FicheUtilisateur from "views/FicheUtilisateur.jsx";
 
 var dashRoutes = [
- 
   {
     path: "/dashboard",
-    name: "Statistique",
+    name: "Dashboard",
     icon: "design_app",
     component: Dashboard,
-    layout: "/admin",
-  },
-  {
-    path: "/listeRegions",
-    name: "Liste Regions",
-    component: ListeRegions,
-    icon: "files_paper",
     layout: "/admin",
   },
   {
@@ -77,6 +72,13 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
+    path: "/liste-signalements",
+    name: "liste signalements",
+    icon: "files_paper",
+    component: ListeSignalements,
+    layout: "/admin",
+  },
+  {
     path: "/typography",
     name: "Typography",
     icon: "design-2_ruler-pencil",
@@ -84,12 +86,25 @@ var dashRoutes = [
     layout: "/admin",
   },
   {
-    pro: true,
-    path: "/upgrade",
-    name: "Upgrade to PRO",
-    icon: "objects_spaceship",
-    component: Upgrade,
+    path: "/fiche-signalement",
+    name: "fiche-signalement",
+    icon: "design-2_ruler-pencil",
+    component: FicheSignalement,
     layout: "/admin",
+  },
+  {
+      path: "/liste-utilisateur",
+      name: "liste utilisateur",
+      icon: "files_paper",
+      component: ListeUtilisateur,
+      layout: "/admin",
+  },
+  {
+      path: "/fiche-utilisateur",
+      name: "fiche utilisateur",
+      icon: "design-2_ruler-pencil",
+      component: FicheUtilisateur,
+      layout: "/admin",
   },
 ];
 export default dashRoutes;
