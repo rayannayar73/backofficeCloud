@@ -19,55 +19,39 @@
 // // // tasks list for Tasks card in Dashboard view
 // #############################
 
-const tasks = [
-  {
-    checked: true,
-    text: 'Sign contract for "What are conference organizers afraid of?"',
-  },
-  {
-    checked: false,
-    text: "Lines From Great Russian Literature? Or E-mails From My Boss?",
-  },
-  {
-    checked: true,
-    text:
-      "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
-  },
-];
+/*const tasks = [
+    {
+        checked: true,
+        text: 'Sign contract for "What are conference organizers afraid of?"',
+    },
+    {
+        checked: false,
+        text: "Lines From Great Russian Literature? Or E-mails From My Boss?",
+    },
+    {
+        checked: true,
+        text:
+            "Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit",
+    },
+];*/
 
 // ##############################
 // // // table head data and table body data for Tables view
 // #############################
 
-const thead = ["Nom", "Chef de region"];
+const thead = ["Nom", "Prenom"];
 const tbody = [
-  {
-    className: "table-success",
-    data: ["Region1", "Niger",],
-  },
-  {
-    className: "",
-    data: ["Region2", "Curaçao",],
-  },
-  {
-    className: "table-info",
-    data: ["Region3", "Netherlands",],
-  },
-  {
-    className: "",
-    data: ["Region4", "Korea, South",],
-  },
-  {
-    className: "table-danger",
-    data: ["Region5", "Malawi",],
-  },
-  { className: "", 
-    data: ["Region6", "Chile",] ,
-  }
-  
+    {
+        className: "table-success",
+        data: ["Rakoto", "Paul"],
+    },
+    {
+        className: "",
+        data: ["Randria", "Meva"],
+    },
 ];
 
 // tasks list for Tasks card in Dashboard view
 // data for <thead> of table in TableList view
 // data for <tbody> of table in TableList view
-export { tasks, thead, tbody };
+export { thead, tbody };
