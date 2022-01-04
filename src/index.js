@@ -27,6 +27,7 @@ import "assets/css/w3.css";
 import AdminLayout from "layouts/Admin.js";
 
 ReactDOM.render(
+  // <h1> welcome !</h1>,
   <BrowserRouter>
     <Switch>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
