@@ -25,22 +25,25 @@ import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
+import ListeUtilisateur from "views/ListeUtilisateur.js";
+import FicheUtilisateur from "views/FicheUtilisateur.jsx";
+import ListeRegions from "views/ListeRegions";
 
 var dashRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Statistique",
     icon: "design_app",
     component: Dashboard,
     layout: "/admin",
   },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "design_image",
-    component: Icons,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/icons",
+  //   name: "Icons",
+  //   icon: "design_image",
+  //   component: Icons,
+  //   layout: "/admin",
+  // },
   {
     path: "/maps",
     name: "Maps",
@@ -48,27 +51,27 @@ var dashRoutes = [
     component: Maps,
     layout: "/admin",
   },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "ui-1_bell-53",
-    component: Notifications,
-    layout: "/admin",
-  },
-  {
-    path: "/user-page",
-    name: "User Profile",
-    icon: "users_single-02",
-    component: UserPage,
-    layout: "/admin",
-  },
-  {
-    path: "/extended-tables",
-    name: "Table List",
-    icon: "files_paper",
-    component: TableList,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/notifications",
+  //   name: "Notifications",
+  //   icon: "ui-1_bell-53",
+  //   component: Notifications,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/user-page",
+  //   name: "User Profile",
+  //   icon: "users_single-02",
+  //   component: UserPage,
+  //   layout: "/admin",
+  // },
+  // {
+  //   path: "/extended-tables",
+  //   name: "Table List",
+  //   icon: "files_paper",
+  //   component: TableList,
+  //   layout: "/admin",
+  // },
   {
     path: "/liste-signalements",
     name: "liste signalements",
@@ -76,13 +79,13 @@ var dashRoutes = [
     component: ListeSignalements,
     layout: "/admin",
   },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: "design-2_ruler-pencil",
-    component: Typography,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/typography",
+  //   name: "Typography",
+  //   icon: "design-2_ruler-pencil",
+  //   component: Typography,
+  //   layout: "/admin",
+  // },
   {
     path: "/fiche-signalement",
     name: "fiche-signalement",
@@ -90,5 +93,26 @@ var dashRoutes = [
     component: FicheSignalement,
     layout: "/admin",
   },
+  {
+      path: "/liste-utilisateur",
+      name: "liste utilisateur",
+      icon: "files_paper",
+      component: ListeUtilisateur,
+      layout: "/admin",
+  },
+  {
+      path: "/fiche-utilisateur",
+      name: "fiche utilisateur",
+      icon: "design-2_ruler-pencil",
+      component: FicheUtilisateur,
+      layout: "/admin",
+  },
+  {
+    path: "/liste-regions",
+    name: "liste region",
+    icon: "files_paper",
+    component: ListeRegions,
+    layout: "/admin",
+},
 ];
 export default dashRoutes;

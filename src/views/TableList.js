@@ -31,7 +31,6 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 
-import { thead, tbody } from "variables/general";
 
 function RegularTables() {
   return (

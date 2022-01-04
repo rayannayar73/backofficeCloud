@@ -64,7 +64,7 @@ function Dashboard() {
       />
       <div className="content">
         <Row>
-          <Col xs={12} md={4}>
+          {/* <Col xs={12} md={4}>
             <Card className="card-chart">
               <CardHeader>
                 <h5 className="card-category">Global Sales</h5>
@@ -101,12 +101,12 @@ function Dashboard() {
                 </div>
               </CardFooter>
             </Card>
-          </Col>
-          <Col xs={12} md={4}>
+          </Col> */}
+          <Col xs={12} md={6}>
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">2021 Sales</h5>
-                <CardTitle tag="h4">All products</CardTitle>
+                <h5 className="card-category">2021-2022</h5>
+                <CardTitle tag="h4">Tous les signalements</CardTitle>
                 <UncontrolledDropdown>
                   <DropdownToggle
                     className="btn-round btn-outline-default btn-icon"
@@ -134,17 +134,17 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="stats">
-                  <i className="now-ui-icons arrows-1_refresh-69" /> Just
-                  Updated
+                  <i className="now-ui-icons arrows-1_refresh-69" /> 
+                  
                 </div>
               </CardFooter>
             </Card>
           </Col>
-          <Col xs={12} md={4}>
+          <Col xs={12} md={6}>
             <Card className="card-chart">
               <CardHeader>
-                <h5 className="card-category">Email Statistics</h5>
-                <CardTitle tag="h4">24 Hours Performance</CardTitle>
+                <h5 className="card-category">2021-2022</h5>
+                <CardTitle tag="h4">Signalement terminé</CardTitle>
               </CardHeader>
               <CardBody>
                 <div className="chart-area">
@@ -156,7 +156,7 @@ function Dashboard() {
               </CardBody>
               <CardFooter>
                 <div className="stats">
-                  <i className="now-ui-icons ui-2_time-alarm" /> Last 7 days
+                  <i className="now-ui-icons ui-2_time-alarm" /> 
                 </div>
               </CardFooter>
             </Card>
@@ -164,7 +164,7 @@ function Dashboard() {
         </Row>
         <Row>
           <Col xs={12} md={6}>
-            <Card className="card-tasks">
+            {/* <Card className="card-tasks">
               <CardHeader>
                 <h5 className="card-category">Backend Development</h5>
                 <CardTitle tag="h4">Tasks</CardTitle>
@@ -317,10 +317,10 @@ function Dashboard() {
                   minutes ago
                 </div>
               </CardFooter>
-            </Card>
+            </Card> */}
           </Col>
           <Col xs={12} md={6}>
-            <Card>
+            {/* <Card>
               <CardHeader>
                 <h5 className="card-category">All Persons List</h5>
                 <CardTitle tag="h4">Employees Stats</CardTitle>
@@ -369,7 +369,7 @@ function Dashboard() {
                   </tbody>
                 </Table>
               </CardBody>
-            </Card>
+            </Card> */}
           </Col>
         </Row>
       </div>
