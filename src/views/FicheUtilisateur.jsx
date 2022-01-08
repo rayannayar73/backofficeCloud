@@ -65,7 +65,7 @@ function User() {
                     <Col md="4">
                         <Card>
                             <CardHeader>
-                                <h5 className="title">Modification données utilisateur:</h5>
+                                <h5 className="title">Modification donnÃ©es utilisateur:</h5>
                             </CardHeader>
                             <CardBody>
                                 <Form>
