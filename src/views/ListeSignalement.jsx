@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // reactstrap components
 import {
@@ -62,6 +62,33 @@ function Suppr(){
 }
 
 function ListeSignalements() {
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8090/ato/signalement")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return "Loading...";
+  if (error) return "Error!";
   return (
     <>
       <PanelHeader size="sm" />
@@ -73,7 +100,9 @@ function ListeSignalements() {
                 <CardTitle tag="h4">liste des signalements</CardTitle>
               </CardHeader>
               <CardBody>
-              <Ajout/>
+              <>
+                <a href='fiche-signalement' className="btn btn-sm btn-success mb-2">Ajouter</a>
+              </>
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
@@ -89,20 +118,30 @@ function ListeSignalements() {
                     </tr>
                   </thead>
                   <tbody>
-                    {tbody.map((prop, key) => {
+                    {data.map((prop, key) => {
                       return (
                         <tr key={key}>
-                          {prop.data.map((prop, key) => {
-                            if (key === thead.length - 1)
-                              return (
-                                <td key={key} className="text-right">
-                                  {prop}
-                                </td>
-                              );
-                            return <td key={key}>{prop}</td>;
-                          })}
-                            <Modif/>
-                            <Suppr/>
+                          <td key='longitude' className="text-right">
+                            {prop.longitude}
+                          </td>
+                          <td key='latitude' className="text-right">
+                            {prop.latitude}
+                          </td>
+                          <td key='region' className="text-right">
+                            {prop.idRegion}
+                          </td>
+                          <td key='type' className="text-right">
+                            {prop.type}
+                          </td>
+                          <td key='etat' className="text-right">
+                            {prop.etat}
+                          </td>                          
+                          <td key='Modifier'>
+                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
+                          </td>
+                          <td key='Supprimer'>
+                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-danger mr-1">Supprimer</a>
+                          </td>
                         </tr>
                       );
                     })}

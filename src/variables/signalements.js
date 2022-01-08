@@ -1,5 +1,5 @@
 
-const thead = [" ", "longitude", "latitude", "region", "type", "en cours"];
+const thead = [ "longitude", "latitude", "region", "type", "etat"];
 const tbody = [
   {
     className: "",

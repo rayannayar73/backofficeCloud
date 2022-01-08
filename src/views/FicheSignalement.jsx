@@ -15,7 +15,9 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
+import { Link, useLocation, BrowserRouter as Router } from "react-router-dom";
 
 // reactstrap components
 import {
@@ -34,7 +36,45 @@ import {
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
-function User() {
+function useQuery(){
+  return new URLSearchParams(useLocation().search);
+}
+
+function User(props) {
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  //ito le id azo avy any @parametre ohatran'ny $_Get taloha
+  var id=useQuery().get("id");
+  if (id==null){ id = 1}
+
+  useEffect(() => {
+    //ato le lien no apetraka
+    fetch("http://localhost:8090/ato/signalement/"+id)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      //dia tafiditra ato anaty variable data le données rehetra. dia io ftsn no ampiasaina any ambany
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return "Loading...";
+  if (error) return "Error!";
+
   return (
     <>
       <PanelHeader size="sm" />
@@ -50,17 +90,17 @@ function User() {
                   <a href="#pablo" onClick={(e) => e.preventDefault()}>
                     <h5 className="title">fiche individuelle signalement:</h5>
                   </a>
-                  <p className="region">Region: non attribué</p>
-                  <p className="longitute">longitude: 23,789</p>
-                  <p className="latitude">latitude: 23,789</p>
-                  <p className="type">type: fako</p>
+                  <p className="region">Region: {data.idRegion}</p>
+                  <p className="longitute">longitude: {data.longitude}</p>
+                  <p className="latitude">latitude: {data.latitude}</p>
+                  <p className="type">type: {data.type}</p>
                   <p className="etat">etat: nouveau</p>
                 </div>
                 <hr />
                 <br/>
                 <p className="descri text-center">
                   Description:
-                  "misy fako miparitaka eo @arabe" 
+                  {data.description} 
                 </p>
               </CardBody>
             </Card>
@@ -79,6 +119,19 @@ function User() {
                         <Input
                           placeholder="nom du region"
                           type="text"
+                          ref={region}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Utilisateur</label>
+                        <Input
+                          placeholder="nom de l'utilisateur"
+                          type="text"
+                          ref={utilisateur}
                         />
                       </FormGroup>
                     </Col>
@@ -90,6 +143,7 @@ function User() {
                         <Input
                           placeholder="Longitude"
                           type="text"
+                          ref={longitude}
                         />
                       </FormGroup>
                     </Col>
@@ -99,6 +153,7 @@ function User() {
                         <Input
                           placeholder="Latitude"
                           type="text"
+                          re={latitude}
                         />
                       </FormGroup>
                     </Col>
@@ -110,22 +165,18 @@ function User() {
                         <Input
                           placeholder="type de signalement"
                           type="text"
+                          ref={type}
                         />
                       </FormGroup>
                     </Col>
                     <Col md="12">
                       <FormGroup>
-                        <label>Etat</label>
-                      <UncontrolledDropdown>
-                        <DropdownToggle caret>
-                            etat du signalement
-                        </DropdownToggle>
-                        <DropdownMenu>
-                            <DropdownItem>nouveau</DropdownItem>
-                            <DropdownItem>en cours</DropdownItem>
-                            <DropdownItem>fini</DropdownItem>
-                        </DropdownMenu>
-                      </UncontrolledDropdown>
+                      <label>Etat</label>
+                      <select className="form-select bg-secondary text-light" ref={etat}>
+                        <option value='1'>nouveau</option>
+                        <option value='2'>en traitement</option>
+                        <option value='3'>terminé</option>
+                      </select>
                       </FormGroup>
                     </Col>
                   </Row>
@@ -142,11 +193,8 @@ function User() {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <button value="submit" className="btn btn-sm btn-success" >
-                  <>
-                    <span>valider</span>
-                  </>
-                  </button>
+                  <button className="btn btn-sm btn-success" onClick={postData}>valider</button>
+                  <button className="btn btn-sm btn-warning ml-2" onClick={clearPostOutput}>annuler</button>
                 </Form>
               </CardBody>
             </Card>
