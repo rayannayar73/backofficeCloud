@@ -25,7 +25,7 @@ import Maps from "views/Maps.js";
 import Upgrade from "views/Upgrade.js";
 import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
-import ListeUtilisateur from "views/ListeUtilisateur.js";
+import ListeUtilisateur from "views/ListeUtilisateur.jsx";
 import FicheUtilisateur from "views/FicheUtilisateur.jsx";
 
 var dashRoutes = [
