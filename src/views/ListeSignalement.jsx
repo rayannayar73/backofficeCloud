@@ -26,6 +26,7 @@ import {
   Table,
   Row,
   Col,
+  Button
 } from "reactstrap";
 
 // core components
@@ -33,33 +34,18 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
 import { thead, tbody } from "variables/signalements";
 
-function Ajout(){
-  return(
-    <>
-      <a href='fiche-signalement' className="btn btn-sm btn-success mb-2">Ajouter</a>
-    </>
-  );
-}
-
-function Modif(){
-  return(
-    <td>
-      <a href='fiche-signalement' className="btn btn-sm btn-primary mr-1">Modifier</a>
-    </td>
-  );
-}
-
-function Suppr(){
-  return(
-    <td>
-      <button className="btn btn-sm btn-danger btn-delete-user" >
-      <>
-        <span>Supprimer</span>
-      </>
-      </button>
-    </td>
-  );
-}
+  function Supprimer(id){
+    fetch(`http://localhost:8090/ato/signalement/${id}`, {
+      "method": "DELETE"
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
 
 function ListeSignalements() {
 
@@ -118,20 +104,17 @@ function ListeSignalements() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data.map((prop, key) => {
+                    {data
+                      // .filter((prop) => prop.type.nom.includes('rano'))
+                      .filter((prop, nombre) => nombre < 10)
+                      .map((prop, key) => {
                       return (
                         <tr key={key}>
-                          <td key='longitude' className="text-right">
-                            {prop.longitude}
-                          </td>
-                          <td key='latitude' className="text-right">
-                            {prop.latitude}
-                          </td>
                           <td key='region' className="text-right">
-                            {prop.idRegion}
+                            {prop.region.nom}
                           </td>
                           <td key='type' className="text-right">
-                            {prop.type}
+                            {prop.type.nom}
                           </td>
                           <td key='etat' className="text-right">
                             {prop.etat}
@@ -140,7 +123,7 @@ function ListeSignalements() {
                             <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
                           </td>
                           <td key='Supprimer'>
-                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-danger mr-1">Supprimer</a>
+                            <Button onClick={() => Supprimer(prop.id)} className="btn btn-sm btn-danger mr-1">Supprimer</Button>
                           </td>
                         </tr>
                       );
