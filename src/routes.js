@@ -27,22 +27,23 @@ import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
 import ListeUtilisateur from "views/ListeUtilisateur.js";
 import FicheUtilisateur from "views/FicheUtilisateur.jsx";
+import ListeRegions from "views/ListeRegions";
 
 var dashRoutes = [
   {
     path: "/dashboard",
-    name: "Dashboard",
+    name: "Statistique",
     icon: "design_app",
     component: Dashboard,
     layout: "/admin",
   },
-  {
-    path: "/icons",
-    name: "Icons",
-    icon: "design_image",
-    component: Icons,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/icons",
+  //   name: "Icons",
+  //   icon: "design_image",
+  //   component: Icons,
+  //   layout: "/admin",
+  // },
   {
     path: "/maps",
     name: "Maps",
@@ -78,13 +79,13 @@ var dashRoutes = [
     component: ListeSignalements,
     layout: "/admin",
   },
-  {
-    path: "/typography",
-    name: "Typography",
-    icon: "design-2_ruler-pencil",
-    component: Typography,
-    layout: "/admin",
-  },
+  // {
+  //   path: "/typography",
+  //   name: "Typography",
+  //   icon: "design-2_ruler-pencil",
+  //   component: Typography,
+  //   layout: "/admin",
+  // },
   {
     path: "/fiche-signalement",
     name: "fiche-signalement",
@@ -106,5 +107,12 @@ var dashRoutes = [
       component: FicheUtilisateur,
       layout: "/admin",
   },
+  {
+    path: "/liste-regions",
+    name: "liste region",
+    icon: "files_paper",
+    component: ListeRegions,
+    layout: "/admin",
+},
 ];
 export default dashRoutes;

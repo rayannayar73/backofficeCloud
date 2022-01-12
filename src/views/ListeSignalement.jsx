@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 // reactstrap components
 import {
@@ -26,6 +26,7 @@ import {
   Table,
   Row,
   Col,
+  Button
 } from "reactstrap";
 
 // core components
@@ -33,35 +34,47 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
 import { thead, tbody } from "variables/signalements";
 
-function Ajout(){
-  return(
-    <>
-      <a href='fiche-signalement' className="btn btn-sm btn-success mb-2">Ajouter</a>
-    </>
-  );
-}
-
-function Modif(){
-  return(
-    <td>
-      <a href='fiche-signalement' className="btn btn-sm btn-primary mr-1">Modifier</a>
-    </td>
-  );
-}
-
-function Suppr(){
-  return(
-    <td>
-      <button className="btn btn-sm btn-danger btn-delete-user" >
-      <>
-        <span>Supprimer</span>
-      </>
-      </button>
-    </td>
-  );
-}
+  function Supprimer(id){
+    fetch(`http://localhost:8090/ato/signalement/${id}`, {
+      "method": "DELETE"
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
 
 function ListeSignalements() {
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:8090/ato/signalement")
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw response;
+      })
+      .then((data) => {
+        setData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching data: ", error);
+        setError(error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return "Loading...";
+  if (error) return "Error!";
   return (
     <>
       <PanelHeader size="sm" />
@@ -73,7 +86,9 @@ function ListeSignalements() {
                 <CardTitle tag="h4">liste des signalements</CardTitle>
               </CardHeader>
               <CardBody>
-              <Ajout/>
+              <>
+                <a href='fiche-signalement' className="btn btn-sm btn-success mb-2">Ajouter</a>
+              </>
                 <Table responsive>
                   <thead className="text-primary">
                     <tr>
@@ -89,20 +104,27 @@ function ListeSignalements() {
                     </tr>
                   </thead>
                   <tbody>
-                    {tbody.map((prop, key) => {
+                    {data
+                      // .filter((prop) => prop.type.nom.includes('rano'))
+                      .filter((prop, nombre) => nombre < 10)
+                      .map((prop, key) => {
                       return (
                         <tr key={key}>
-                          {prop.data.map((prop, key) => {
-                            if (key === thead.length - 1)
-                              return (
-                                <td key={key} className="text-right">
-                                  {prop}
-                                </td>
-                              );
-                            return <td key={key}>{prop}</td>;
-                          })}
-                            <Modif/>
-                            <Suppr/>
+                          <td key='region' className="text-right">
+                            {prop.region.nom}
+                          </td>
+                          <td key='type' className="text-right">
+                            {prop.type.nom}
+                          </td>
+                          <td key='etat' className="text-right">
+                            {prop.etat}
+                          </td>                          
+                          <td key='Modifier'>
+                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
+                          </td>
+                          <td key='Supprimer'>
+                            <Button onClick={() => Supprimer(prop.id)} className="btn btn-sm btn-danger mr-1">Supprimer</Button>
+                          </td>
                         </tr>
                       );
                     })}
