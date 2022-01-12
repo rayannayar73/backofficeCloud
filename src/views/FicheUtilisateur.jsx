@@ -35,7 +35,6 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-
 function useQuery(){
   return new URLSearchParams(useLocation().search);
 }
