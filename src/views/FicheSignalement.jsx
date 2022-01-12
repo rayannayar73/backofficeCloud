@@ -192,7 +192,6 @@ function User(props) {
                 <hr />
                 <br/>
                 <p className="descri text-center">
-                  Description:
                   {data[0].description} 
                 </p>
               </CardBody>
@@ -213,6 +212,19 @@ function User(props) {
                           onChange={event => setRegion(event.target.value)} 
                           placeholder="nom du region"
                           type="text"
+                          ref={region}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Utilisateur</label>
+                        <Input
+                          placeholder="nom de l'utilisateur"
+                          type="text"
+                          ref={utilisateur}
                         />
                       </FormGroup>
                     </Col>
@@ -237,6 +249,7 @@ function User(props) {
                         onChange={event => setLongitude(event.target.value)} 
                           placeholder="Longitude"
                           type="text"
+                          ref={longitude}
                         />
                       </FormGroup>
                     </Col>
@@ -247,6 +260,7 @@ function User(props) {
                         onChange={event => setLatitude(event.target.value)} 
                           placeholder="Latitude"
                           type="text"
+                          re={latitude}
                         />
                       </FormGroup>
                     </Col>
@@ -259,6 +273,7 @@ function User(props) {
                         onChange={event => setType(event.target.value)} 
                           placeholder="type de signalement"
                           type="text"
+                          ref={type}
                         />
                       </FormGroup>
                     </Col>
@@ -290,7 +305,7 @@ function User(props) {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <button className="btn btn-sm btn-success" onClick={putData}>valider</button>
+                  <button className="btn btn-sm btn-success" onClick={postData}>valider</button>
                   <button className="btn btn-sm btn-warning ml-2" onClick={clearPostOutput}>annuler</button>
                 </Form>
               </CardBody>

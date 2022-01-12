@@ -1,4 +1,3 @@
-
 const thead = [ "region", "type", "etat"];
 const tbody = [
   {
