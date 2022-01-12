@@ -33,6 +33,14 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 
 import { thead, tbody } from "variables/utilisateur";
 
+function Voir() {
+    return (
+        <>
+            <a href='fiche-utilisateur' className="btn btn-sm btn-success mb-2">Voir</a>
+        </>
+    );
+}
+
 function RegularTables() {
     return (
         <>
@@ -72,6 +80,7 @@ function RegularTables() {
                                                             );
                                                         return <td key={key}>{prop}</td>;
                                                     })}
+                                                    <Voir/>
                                                 </tr>
                                             );
                                         })}
