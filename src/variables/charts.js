@@ -302,6 +302,8 @@ const dashboardAllProductsChart = {
     var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
+
+    var tab=[40, 500, 650, 700, 1200, 1250, 1300, 1900];
     return {
       labels: ["12pm,", "3pm", "6pm", "9pm", "12am", "3am", "6am", "9am"],
       datasets: [
@@ -318,7 +320,7 @@ const dashboardAllProductsChart = {
           backgroundColor: gradientFill,
           borderWidth: 2,
           tension: 0.4,
-          data: [40, 500, 650, 700, 1200, 1250, 1300, 1900],
+          data: tab,
         },
       ],
     };
@@ -336,6 +338,8 @@ const dashboard24HoursPerformanceChart = {
     var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
     gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
     gradientFill.addColorStop(1, hexToRGB("#2CA8FF", 0.6));
+
+    var tab= [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155];
     return {
       labels: [
         "January",
@@ -364,7 +368,7 @@ const dashboard24HoursPerformanceChart = {
           pointRadius: 4,
           fill: true,
           borderWidth: 1,
-          data: [80, 99, 86, 96, 123, 85, 100, 75, 88, 90, 123, 155],
+          data: tab,
         },
       ],
     };
