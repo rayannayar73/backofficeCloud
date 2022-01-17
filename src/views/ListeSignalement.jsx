@@ -52,14 +52,10 @@ function ListeSignalements() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-function ListeSignalements() {
-
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [compteur, setCompteur] = useState(true);
 
   useEffect(() => {
+    if (compteur){
     fetch("http://localhost:8090/ato/signalement")
       .then((response) => {
         if (response.ok) {
@@ -69,6 +65,8 @@ function ListeSignalements() {
       })
       .then((data) => {
         setData(data);
+        console.log(data);
+        setCompteur(false);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -77,7 +75,8 @@ function ListeSignalements() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+    }
+  });
 
   if (loading) return "Loading...";
   if (error) return "Error!";
@@ -129,7 +128,7 @@ function ListeSignalements() {
                             <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
                           </td>
                           <td key='Supprimer'>
-                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-danger mr-1">Supprimer</a>
+                            <a onClick={() => Supprimer(prop.id) } className="btn btn-sm btn-danger mr-1">Supprimer</a>
                           </td>
                         </tr>
                       );
