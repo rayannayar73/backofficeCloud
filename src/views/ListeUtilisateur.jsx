@@ -26,7 +26,6 @@ import {
   Table,
   Row,
   Col,
-  Button
 } from "reactstrap";
 
 // core components
@@ -34,33 +33,42 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
 import { thead, tbody } from "variables/signalements";
 
-  function Supprimer(id){
-    fetch(`http://localhost:8090/ato/signalement/${id}`, {
-      "method": "DELETE"
-    })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  }
+function Ajout(){
+  return(
+    <>
+      <a href='fiche-utilisateur' className="btn btn-sm btn-success mb-2">Ajouter</a>
+    </>
+  );
+}
 
-function ListeSignalements() {
+function Modif(){
+  return(
+    <td>
+      <a href='fiche-utilisateur' className="btn btn-sm btn-primary mr-1">Modifier</a>
+    </td>
+  );
+}
 
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+function Suppr(){
+  return(
+    <td>
+      <button className="btn btn-sm btn-danger btn-delete-user" >
+      <>
+        <span>Supprimer</span>
+      </>
+      </button>
+    </td>
+  );
+}
 
-function ListeSignalements() {
+function ListeUtilisateur() {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8090/ato/signalement")
+    fetch("http://localhost:8090/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -89,11 +97,11 @@ function ListeSignalements() {
           <Col xs={12}>
             <Card>
               <CardHeader>
-                <CardTitle tag="h4">liste des signalements</CardTitle>
+                <CardTitle tag="h4">liste des utilisateur</CardTitle>
               </CardHeader>
               <CardBody>
               <>
-                <a href='fiche-signalement' className="btn btn-sm btn-success mb-2">Ajouter</a>
+                <a href='fiche-utilisateur' className="btn btn-sm btn-success mb-2">Ajouter</a>
               </>
                 <Table responsive>
                   <thead className="text-primary">
@@ -110,26 +118,20 @@ function ListeSignalements() {
                     </tr>
                   </thead>
                   <tbody>
-                    {data
-                      // .filter((prop) => prop.type.nom.includes('rano'))
-                      .filter((prop, nombre) => nombre < 10)
-                      .map((prop, key) => {
+                    {data.map((prop, key) => {
                       return (
                         <tr key={key}>
-                          <td key='region' className="text-right">
-                            {prop.region.nom}
+                          <td key='longitude' className="text-right">
+                            {prop.nom}
                           </td>
-                          <td key='type' className="text-right">
-                            {prop.type.nom}
-                          </td>
-                          <td key='etat' className="text-right">
-                            {prop.etat}
+                          <td key='latitude' className="text-right">
+                            {prop.prenom}
                           </td>                          
                           <td key='Modifier'>
-                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
+                            <a href={'fiche-utilisateur?id='+prop.id} className="btn btn-sm btn-primary mr-1">Voir</a>
                           </td>
                           <td key='Supprimer'>
-                            <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-danger mr-1">Supprimer</a>
+                            <a href={'fiche-utilisateur?id='+prop.id} className="btn btn-sm btn-danger mr-1">Supprimer</a>
                           </td>
                         </tr>
                       );
@@ -145,4 +147,4 @@ function ListeSignalements() {
   );
 }
 
-export default ListeSignalements;
+export default ListeUtilisateur;
