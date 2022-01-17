@@ -27,7 +27,6 @@ import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
 import ListeUtilisateur from "views/ListeUtilisateur.jsx";
 import FicheUtilisateur from "views/FicheUtilisateur.jsx";
-import ListeRegions from "views/ListeRegions";
 
 var dashRoutes = [
   {
@@ -107,12 +106,5 @@ var dashRoutes = [
       component: FicheUtilisateur,
       layout: "/admin",
   },
-  {
-    path: "/liste-regions",
-    name: "liste region",
-    icon: "files_paper",
-    component: ListeRegions,
-    layout: "/admin",
-},
 ];
 export default dashRoutes;

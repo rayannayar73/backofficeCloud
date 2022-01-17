@@ -18,6 +18,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { Link, useLocation, BrowserRouter as Router } from "react-router-dom";
+import Select from 'react-select';
 
 // reactstrap components
 import {
@@ -35,6 +36,7 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+const axios = require('axios');
 
 function useQuery(){
   return new URLSearchParams(useLocation().search);
@@ -48,10 +50,18 @@ function User(props) {
   const dataEtat = ['nouveau','en traitement','terminé']
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dataSignalement = {
+    "region" : {"nom": "..."},
+    "longitude" : "...",
+    "latitude" : "...",
+    "type" : {"nom": "..."},
+    "utilisateur": {"nom": "...", "prenom": "..."},
+    "description": "..."
+  };
 
   //ito le id avy any @parametre
   var id=useQuery().get("id");
-  if(!id)id=1;
+  
 
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
@@ -60,115 +70,116 @@ function User(props) {
   const [utilisateur, setUtilisateur] = useState('');
   const [description, setDescription] = useState('');
   const [region, setRegion] = useState('');
+  const [compteur, setCompteur] = useState(true);
+  const [selectedOption, setSelectedOption] = useState(null);
 
-  const [postResult, setPostResult] = useState(null);
+const putData = async (e) =>{
+  e.preventDefault();
+  const donnees = { 
+        region: region.value,
+        longitude,
+        latitude,
+        description,
+        type: type.value,
+        utilisateur: utilisateur.value
+      };
+    let res = await axios.put('http://localhost:8090/ato/signalement/'+id, donnees);
+    let data = res.data;
+    id = data.id;
+}
 
-  const fortmatResponse = (res) => {
-    return JSON.stringify(res, null, 2);
-  }
-  
-  function putData() {
-    fetch("http://localhost:8090/ato/signalement/1", {
-      "method": "PUT",
-      "headers": {
-        "content-type": "application/json",
-      },
-      "body": JSON.stringify({
-        region: 2,
-        longitude: 123.3,
-        latitude: 123.21,
-        description: 'asa',
-        type: 2,
-        utilisateur: 2
-      })
-    })
-    .then(response => response.json())
-    .then(response => {
-      alert(response)
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  }
+const postData = async (e) =>{
+  e.preventDefault();
+  const donnees = { 
+        region: region.value,
+        longitude,
+        latitude,
+        description,
+        type: type.value,
+        utilisateur: utilisateur.value 
+      };
+      console.log(donnees);
+    let res = await axios.post('http://localhost:8090/ato/signalement', donnees);
+    let data = res.data;
+    id = data.id;
+}
 
-
-
-  function postData() {
-   fetch("http://localhost:8090/ato/signalement", {
-      "method": "POST",
-      "headers": {
-        "content-type": "application/json",
-      },
-      "body": JSON.stringify({
-        region: 1,
-        longitude: 123.3,
-        latitude: 123.21,
-        description: 'asa',
-        type: 1,
-        utilisateur: 1
-      })
-    })
-    .then(response => response.json())
-    .then(response => {
-      alert(response)
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  }
-  
   const clearPostOutput = (e) => {
     e.preventDefault();
     document.getElementById("myFormRef").reset();
   }
 
   function getData(){
-    Promise.all([
-    fetch('http://localhost:8090/ato/signalement/'+id),
-    fetch('http://localhost:8090/ato/type')
-    ]).then(function (responses) {
-      return Promise.all(responses.map(function (response) {
-        return response.json();
-      }));
-    }).then(function (data) {
-      setData(data);
-    }).catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-    }).finally(() => {
-        setLoading(false);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  }
-
-
-  function getOneData(entity, idEntity) {
-    // get all entities - GET
-    fetch("http://localhost:8090/ato/"+entity+"/"+idEntity, {
-      "method": "GET"
-    })
-    .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        setData(data);
-      })
-    .catch(err => { console.log(err); 
-    });
+    if (compteur){
+      if(id){
+        Promise.all([
+        fetch('http://localhost:8090/ato/signalement/'+id),
+        fetch('http://localhost:8090/ato/regions'),
+        fetch('http://localhost:8090/ato/utilisateur'),
+        fetch('http://localhost:8090/ato/type')
+        ]).then(function (responses) {
+          return Promise.all(responses.map(function (response) {
+            return response.json();
+          }));
+        }).then(function (data) {
+            setData(data);
+            setCompteur(false);
+        }).catch((error) => {
+            data.splice(0,0,dataSignalement);
+            console.error("Error fetching data: ", error);
+            setError(error);
+        }).finally(() => {
+            setLoading(false);
+        });
+      }
+      if(!id){
+        Promise.all([
+        fetch('http://localhost:8090/ato/regions'),
+        fetch('http://localhost:8090/ato/utilisateur'),
+        fetch('http://localhost:8090/ato/type')
+        ]).then(function (responses) {
+          return Promise.all(responses.map(function (response) {
+            return response.json();
+          }));
+        }).then(function (data) {
+            data.splice(0,0,dataSignalement);
+            setData(data);
+            setCompteur(false);
+        }).catch((error) => {
+            data.splice(0,0,dataSignalement);
+            console.error("Error fetching data: ", error);
+            setError(error);
+        }).finally(() => {
+            setLoading(false);
+        });
+      }
+    }
   }
 
   useEffect(() => {
     getData();
-  }, []);
+    console.log(data);
+  }, [data]);
 
   if (loading) return "Loading..."; 
   if (error) return "Error!";
 
-  return (
+const listeRegion = [];
+{data[1].forEach(regionObj => {
+  listeRegion.push({ value:regionObj.id, label:regionObj.nom });
+})}  
+
+const listeUtilisateur = [];
+{data[2].forEach(userObj => {
+  listeUtilisateur.push({ value:userObj.id, label:userObj.nom+" "+userObj.prenom });
+})}  
+
+const listeType = [];
+{data[3].forEach(typeObj => {
+  listeType.push({ value:typeObj.id, label:typeObj.nom });
+})}  
+
+return (
     <>
       <PanelHeader size="sm" />
       <div className="content">
@@ -180,13 +191,14 @@ function User(props) {
               </div>
               <CardBody>
                 <div className="author">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                  <a href="#pablo" >
                     <h5 className="title">fiche individuelle signalement:</h5>
                   </a>
                   <p className="region">Region: {data[0].region.nom}</p>
                   <p className="longitute">longitude: {data[0].longitude}</p>
                   <p className="latitude">latitude: {data[0].latitude}</p>
                   <p className="type">type: {data[0].type.nom}</p>
+                  <p className="type">user: {data[0].utilisateur.nom +" "+ data[0].utilisateur.prenom}</p>
                   <p className="etat">etat: nouveau</p>
                 </div>
                 <hr />
@@ -208,11 +220,10 @@ function User(props) {
                     <Col md="12">
                       <FormGroup>
                         <label>Region</label>
-                        <Input
-                          onChange={event => setRegion(event.target.value)} 
+                        <Select
                           placeholder="nom du region"
-                          type="text"
-                          ref={region}
+                          onChange={setRegion}
+                          options={listeRegion}
                         />
                       </FormGroup>
                     </Col>
@@ -221,35 +232,22 @@ function User(props) {
                     <Col md="12">
                       <FormGroup>
                         <label>Utilisateur</label>
-                        <Input
+                        <Select
                           placeholder="nom de l'utilisateur"
-                          type="text"
-                          ref={utilisateur}
+                          onChange={setUtilisateur}
+                          options={listeUtilisateur}
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Utilisateur</label>
-                        <Input
-                          onChange={event => setUtilisateur(event.target.value)} 
-                          placeholder="nom de l'utilisateur"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="pr-1" md="6">
+                    <Col className="px-1" md="6">
                       <FormGroup>
                         <label>Longitude</label>
                         <Input
-                        onChange={event => setLongitude(event.target.value)} 
+                          onChange={event => setLongitude(event.target.value)} 
                           placeholder="Longitude"
                           type="text"
-                          ref={longitude}
                         />
                       </FormGroup>
                     </Col>
@@ -260,23 +258,11 @@ function User(props) {
                         onChange={event => setLatitude(event.target.value)} 
                           placeholder="Latitude"
                           type="text"
-                          re={latitude}
                         />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Type</label>
-                        <Input
-                        onChange={event => setType(event.target.value)} 
-                          placeholder="type de signalement"
-                          type="text"
-                          ref={type}
-                        />
-                      </FormGroup>
-                    </Col>
                     <Col md="12">
                       <FormGroup>
                       <label>Etat</label>
@@ -288,6 +274,16 @@ function User(props) {
                           );
                        })}
                       </select>
+                      </FormGroup>
+                    </Col>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Type</label>
+                        <Select
+                          placeholder="type"
+                          onChange={setType}
+                          options={listeType}
+                        />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -305,7 +301,7 @@ function User(props) {
                       </FormGroup>
                     </Col>
                   </Row>
-                  <button className="btn btn-sm btn-success" onClick={postData}>valider</button>
+                  <button className="btn btn-sm btn-success" onClick={(id)? putData : postData}>valider</button>
                   <button className="btn btn-sm btn-warning ml-2" onClick={clearPostOutput}>annuler</button>
                 </Form>
               </CardBody>
