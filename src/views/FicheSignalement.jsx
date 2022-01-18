@@ -84,7 +84,7 @@ const putData = async (e) =>{
         etat: etat.value,
         utilisateur: utilisateur.value
       };
-    let res = await axios.put('http://localhost:8090/ato/signalement/'+id, donnees);
+    let res = await axios.put('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/'+id, donnees);
     let data = res.data;
     setId(data.id);
     setCompteur(true);
@@ -102,7 +102,7 @@ const postData = async (e) =>{
         utilisateur: utilisateur.value 
       };
       console.log(donnees);
-    let res = await axios.post('http://localhost:8090/ato/signalement', donnees);
+    let res = await axios.post('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement', donnees);
     let data = res.data;
     setId(data.id);
     setCompteur(true);
@@ -130,11 +130,11 @@ const postData = async (e) =>{
     if (compteur){
       if(id){
         Promise.all([
-        fetch('http://localhost:8090/ato/signalement/'+id),
-        fetch('http://localhost:8090/ato/regions'),
-        fetch('http://localhost:8090/ato/utilisateur'),
-        fetch('http://localhost:8090/ato/type'),
-        fetch('http://localhost:8090/ato/etat')
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/'+id),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/region'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/type'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/etat')
         ]).then(function (responses) {
           return Promise.all(responses.map(function (response) {
             return response.json();
@@ -151,10 +151,10 @@ const postData = async (e) =>{
       }
       if(!id){
         Promise.all([
-        fetch('http://localhost:8090/ato/regions'),
-        fetch('http://localhost:8090/ato/utilisateur'),
-        fetch('http://localhost:8090/ato/type'),
-        fetch('http://localhost:8090/ato/etat')
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/region'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/type'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/etat')
         ]).then(function (responses) {
           return Promise.all(responses.map(function (response) {
             return response.json();
