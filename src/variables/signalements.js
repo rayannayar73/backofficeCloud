@@ -25,4 +25,4 @@ const tbody = [
   
 ];
 
-export { thead, tbody };
+export { thead, tbody};
