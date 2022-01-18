@@ -1,4 +1,6 @@
 
+
+
 const thead = [" ", "longitude", "latitude", "region", "type", "en cours"];
 const tbody = [
   {
@@ -26,4 +28,4 @@ const tbody = [
   
 ];
 
-export { thead, tbody };
+export { thead, tbody};
