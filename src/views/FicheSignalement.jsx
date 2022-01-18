@@ -176,7 +176,7 @@ const postData = async (e) =>{
 
   useEffect(() => {
     getData();
-    console.log(dataSignalement);
+    console.log(data);
     console.log(etat);
   }, [compteur]); 
 
