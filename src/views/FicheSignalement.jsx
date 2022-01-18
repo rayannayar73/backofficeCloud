@@ -47,31 +47,31 @@ function User(props) {
   const [data, setData] = useState(null);
   const [dataType, setDataType] = useState(null);
   const [dataRegion,setDataRegion] = useState(null);
-  const dataEtat = ['nouveau','en traitement','terminé']
+  const [dataEtat,setDataEtat] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const dataSignalement = {
-    "region" : {"nom": "..."},
+  const [dataSignalement,setDataSignalement] = useState({
+    "region" : {"nom": "...","id":""},
     "longitude" : "...",
     "latitude" : "...",
-    "type" : {"nom": "..."},
-    "utilisateur": {"nom": "...", "prenom": "..."},
+    "type" : {"nom": "...","id":""},
+    "utilisateur": {"nom": "...", "prenom": "...","id":""},
+    "etat": {"nom": "...","id":""},
     "description": "..."
-  };
+  });
 
   //ito le id avy any @parametre
-  var id=useQuery().get("id");
+  const [id,setId]=useState(useQuery().get("id"));
   
 
-  const [longitude, setLongitude] = useState('');
-  const [latitude, setLatitude] = useState('');
-  const [type, setType] = useState('');
-  const [etat, setEtat] = useState('');
-  const [utilisateur, setUtilisateur] = useState('');
-  const [description, setDescription] = useState('');
-  const [region, setRegion] = useState('');
+  const [longitude, setLongitude] = useState(dataSignalement.longitude);
+  const [latitude, setLatitude] = useState(dataSignalement.latitude);
+  const [type, setType] = useState({ value:dataSignalement.type.id, label:dataSignalement.type.nom });
+  const [etat, setEtat] = useState({ value:dataSignalement.etat.id, label:dataSignalement.etat.nom });
+  const [utilisateur, setUtilisateur] = useState({ value:dataSignalement.utilisateur.id, label:dataSignalement.utilisateur.nom });
+  const [description, setDescription] = useState(dataSignalement.description);
+  const [region, setRegion] = useState({ value:dataSignalement.region.id, label:dataSignalement.nom });
   const [compteur, setCompteur] = useState(true);
-  const [selectedOption, setSelectedOption] = useState(null);
 
 const putData = async (e) =>{
   e.preventDefault();
@@ -81,11 +81,13 @@ const putData = async (e) =>{
         latitude,
         description,
         type: type.value,
+        etat: etat.value,
         utilisateur: utilisateur.value
       };
     let res = await axios.put('http://localhost:8090/ato/signalement/'+id, donnees);
     let data = res.data;
-    id = data.id;
+    setId(data.id);
+    setCompteur(true);
 }
 
 const postData = async (e) =>{
@@ -96,17 +98,32 @@ const postData = async (e) =>{
         latitude,
         description,
         type: type.value,
+        etat: etat.value,
         utilisateur: utilisateur.value 
       };
       console.log(donnees);
     let res = await axios.post('http://localhost:8090/ato/signalement', donnees);
     let data = res.data;
-    id = data.id;
+    setId(data.id);
+    setCompteur(true);
 }
 
   const clearPostOutput = (e) => {
     e.preventDefault();
     document.getElementById("myFormRef").reset();
+  }
+
+  function setter(data){
+    setData(data);
+    setDataSignalement(data[0]);
+    setDescription(data[0].description);
+    setRegion({value:data[0].region.id});
+    setUtilisateur({value:data[0].utilisateur.id});
+    setLongitude(data[0].longitude);
+    setLatitude(data[0].latitude);
+    setEtat({value:data[0].etat.id});
+    setType({value:data[0].type.id});
+    setCompteur(false);
   }
 
   function getData(){
@@ -116,14 +133,14 @@ const postData = async (e) =>{
         fetch('http://localhost:8090/ato/signalement/'+id),
         fetch('http://localhost:8090/ato/regions'),
         fetch('http://localhost:8090/ato/utilisateur'),
-        fetch('http://localhost:8090/ato/type')
+        fetch('http://localhost:8090/ato/type'),
+        fetch('http://localhost:8090/ato/etat')
         ]).then(function (responses) {
           return Promise.all(responses.map(function (response) {
             return response.json();
           }));
         }).then(function (data) {
-            setData(data);
-            setCompteur(false);
+            setter(data);
         }).catch((error) => {
             data.splice(0,0,dataSignalement);
             console.error("Error fetching data: ", error);
@@ -136,7 +153,8 @@ const postData = async (e) =>{
         Promise.all([
         fetch('http://localhost:8090/ato/regions'),
         fetch('http://localhost:8090/ato/utilisateur'),
-        fetch('http://localhost:8090/ato/type')
+        fetch('http://localhost:8090/ato/type'),
+        fetch('http://localhost:8090/ato/etat')
         ]).then(function (responses) {
           return Promise.all(responses.map(function (response) {
             return response.json();
@@ -158,8 +176,9 @@ const postData = async (e) =>{
 
   useEffect(() => {
     getData();
-    console.log(data);
-  }, [data]);
+    console.log(dataSignalement);
+    console.log(etat);
+  }, [compteur]); 
 
   if (loading) return "Loading..."; 
   if (error) return "Error!";
@@ -179,6 +198,11 @@ const listeType = [];
   listeType.push({ value:typeObj.id, label:typeObj.nom });
 })}  
 
+const listeEtat = [];
+{data[4].forEach(typeObj => {
+  listeEtat.push({ value:typeObj.id, label:typeObj.nom });
+})}  
+
 return (
     <>
       <PanelHeader size="sm" />
@@ -194,17 +218,17 @@ return (
                   <a href="#pablo" >
                     <h5 className="title">fiche individuelle signalement:</h5>
                   </a>
-                  <p className="region">Region: {data[0].region.nom}</p>
-                  <p className="longitute">longitude: {data[0].longitude}</p>
-                  <p className="latitude">latitude: {data[0].latitude}</p>
-                  <p className="type">type: {data[0].type.nom}</p>
-                  <p className="type">user: {data[0].utilisateur.nom +" "+ data[0].utilisateur.prenom}</p>
-                  <p className="etat">etat: nouveau</p>
+                  <p className="region">Region: {dataSignalement.region.nom}</p>
+                  <p className="longitute">longitude: {dataSignalement.longitude}</p>
+                  <p className="latitude">latitude: {dataSignalement.latitude}</p>
+                  <p className="type">type: {dataSignalement.type.nom}</p>
+                  <p className="type">user: {dataSignalement.utilisateur.nom +" "+ dataSignalement.utilisateur.prenom}</p>
+                  <p className="etat">etat: {dataSignalement.etat.nom}</p>
                 </div>
                 <hr />
                 <br/>
                 <p className="descri text-center">
-                  {data[0].description} 
+                  {dataSignalement.description} 
                 </p>
               </CardBody>
             </Card>
@@ -266,14 +290,12 @@ return (
                     <Col md="12">
                       <FormGroup>
                       <label>Etat</label>
-                      <select className="form-select bg-secondary text-light" 
-                      onChange={event => setEtat(event.target.value)} >
-                      {dataEtat.map((prop, key) => {
-                        return(
-                          <option key={key} value={prop}>{prop}</option>
-                          );
-                       })}
-                      </select>
+                      <Select
+                          // className="form-select bg-secondary text-light"
+                          placeholder="etat"
+                          onChange={setEtat}
+                          options={listeEtat}
+                        />
                       </FormGroup>
                     </Col>
                     <Col md="12">
