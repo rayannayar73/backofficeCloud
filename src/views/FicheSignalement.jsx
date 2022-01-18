@@ -131,7 +131,7 @@ const postData = async (e) =>{
       if(id){
         Promise.all([
         fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/'+id),
-        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/region'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/regions'),
         fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur'),
         fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/type'),
         fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/etat')
