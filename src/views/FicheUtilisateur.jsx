@@ -51,7 +51,7 @@ function User(props) {
 
   useEffect(() => {
     //ato le lien no apetraka
-    fetch("http://localhost:8090/ato/utilisateur/"+id)
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur"+id)
       .then((response) => {
         if (response.ok) {
           return response.json();

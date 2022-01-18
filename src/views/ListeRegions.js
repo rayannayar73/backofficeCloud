@@ -33,7 +33,7 @@ import {
     const [error , setError]= useState(null);
 
     useEffect(()=>{
-      fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/region")
+      fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/regions")
       .then((response)=> {
         if(response.ok){
           return response.json();
