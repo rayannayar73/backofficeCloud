@@ -68,7 +68,7 @@ function ListeUtilisateur() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8090/ato/utilisateur")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
           return response.json();
