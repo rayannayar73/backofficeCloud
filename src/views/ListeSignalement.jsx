@@ -34,6 +34,13 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
 import { thead, tbody } from "variables/signalements";
 
+function ListeSignalements() {
+
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [compteur, setCompteur] = useState(true);
+
   function Supprimer(id){
     fetch(`http://localhost:8090/ato/signalement/${id}`, {
       "method": "DELETE"
@@ -41,18 +48,12 @@ import { thead, tbody } from "variables/signalements";
     .then(response => response.json())
     .then(response => {
       console.log(response);
+      setCompteur(true);
     })
     .catch(err => {
       console.log(err);
     });
   }
-
-function ListeSignalements() {
-
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [compteur, setCompteur] = useState(true);
 
   useEffect(() => {
     if (compteur){
@@ -76,7 +77,7 @@ function ListeSignalements() {
         setLoading(false);
       });
     }
-  });
+  },[compteur]);
 
   if (loading) return "Loading...";
   if (error) return "Error!";
@@ -122,7 +123,7 @@ function ListeSignalements() {
                             {prop.type.nom}
                           </td>
                           <td key='etat' className="text-right">
-                            {prop.etat}
+                            {prop.etat.nom}
                           </td>                          
                           <td key='Modifier'>
                             <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
