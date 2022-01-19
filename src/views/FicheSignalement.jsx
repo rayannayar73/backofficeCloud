@@ -95,7 +95,7 @@ const putData = async (e) =>{
         dateSignalement: dateDebut,
         dateFinSignalement: dateFin
       };
-    let res = await axios.put('http://localhost:8090/ato/signalement/'+id, donnees);
+    let res = await axios.put('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/'+id, donnees);
     let data = res.data;
     setId(data.id);
     setCompteur(true);
@@ -115,7 +115,7 @@ const postData = async (e) =>{
         dateFinSignalement: dateFin 
       };
       console.log(donnees);
-    let res = await axios.post('http://localhost:8090/ato/signalement', donnees);
+    let res = await axios.post('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement', donnees);
     let data = res.data;
     setId(data.id);
     setCompteur(true);
