@@ -34,19 +34,6 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
 import { thead, tbody } from "variables/signalements";
 
-  function Supprimer(id){
-    fetch(`http://localhost:8090/ato/signalement/${id}`, {
-      "method": "DELETE"
-    })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  }
-
 function ListeSignalements() {
 
   const [data, setData] = useState(null);
@@ -54,9 +41,23 @@ function ListeSignalements() {
   const [error, setError] = useState(null);
   const [compteur, setCompteur] = useState(true);
 
+  function Supprimer(id){
+    fetch(`https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/${id}`, {
+      "method": "DELETE"
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      setCompteur(true);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+
   useEffect(() => {
     if (compteur){
-    fetch("http://localhost:8090/ato/signalement")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/signalement")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -76,7 +77,7 @@ function ListeSignalements() {
         setLoading(false);
       });
     }
-  });
+  },[compteur]);
 
   if (loading) return "Loading...";
   if (error) return "Error!";
@@ -122,7 +123,7 @@ function ListeSignalements() {
                             {prop.type.nom}
                           </td>
                           <td key='etat' className="text-right">
-                            {prop.etat}
+                            {prop.etat.nom}
                           </td>                          
                           <td key='Modifier'>
                             <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
