@@ -54,6 +54,7 @@ function ListeUtilisateur() {
   }
 
   useEffect(() => {
+    if (compteur){
     fetch("http://localhost:8090/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
@@ -72,7 +73,8 @@ function ListeUtilisateur() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+    }
+  }, [compteur]);
 
   if (loading) return "Loading...";
   if (error) return "Error!";

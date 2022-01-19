@@ -111,7 +111,7 @@ function User(props) {
   useEffect(() => {
     getData();
     console.log(data);
-  }, [data]);
+  }, []);
 
   if (loading) return "Loading...";
   if (error) return "Error!";
