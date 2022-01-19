@@ -145,11 +145,11 @@ const postData = async (e) =>{
     if (compteur){
       if(id){
         Promise.all([
-        fetch('http://localhost:8090/ato/signalement/'+id),
-        fetch('http://localhost:8090/ato/regions'),
-        fetch('http://localhost:8090/ato/utilisateur'),
-        fetch('http://localhost:8090/ato/type'),
-        fetch('http://localhost:8090/ato/etat')
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/'+id),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/regions'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/type'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/etat')
         ]).then(function (responses) {
           return Promise.all(responses.map(function (response) {
             return response.json();
@@ -166,10 +166,10 @@ const postData = async (e) =>{
       }
       if(!id){
         Promise.all([
-        fetch('http://localhost:8090/ato/regions'),
-        fetch('http://localhost:8090/ato/utilisateur'),
-        fetch('http://localhost:8090/ato/type'),
-        fetch('http://localhost:8090/ato/etat')
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/regions'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/type'),
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/etat')
         ]).then(function (responses) {
           return Promise.all(responses.map(function (response) {
             return response.json();

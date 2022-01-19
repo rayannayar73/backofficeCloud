@@ -54,7 +54,7 @@ function Dashboard() {
   const liste = [];
 
   useEffect(() => {
-    fetch("http://localhost:8090/ato/regions")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/regions")
       .then((response) => {
         if (response.ok) {  
           return response.json();
