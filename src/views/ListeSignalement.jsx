@@ -57,7 +57,7 @@ function ListeSignalements() {
 
   useEffect(() => {
     if (compteur){
-    fetch("http://localhost:8090/ato/signalement")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/signalement")
       .then((response) => {
         if (response.ok) {
           return response.json();
