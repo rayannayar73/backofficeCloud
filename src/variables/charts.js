@@ -17,8 +17,6 @@
 
 */
 
-const { inArray } = require("jquery");
-
 
 // ##############################
 // // // Function that converts a hex color number to a RGB color number
@@ -153,7 +151,20 @@ var gradientChartOptionsConfigurationWithNumbersAndGrid = {
           var gradientFill = ctx.createLinearGradient(0, 200, 0, 50);
           gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
           gradientFill.addColorStop(1, "rgba(255, 255, 255, 0.14)");
-          tabLabels=['jan','fev','mars']
+          tabLabels=[
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ];
           tabPoint=[50, 150, 100, 190, 130, 90, 150, 160, 120, 140, 190, 95];
           
          
