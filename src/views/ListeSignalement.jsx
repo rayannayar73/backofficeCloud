@@ -42,7 +42,7 @@ function ListeSignalements() {
   const [compteur, setCompteur] = useState(true);
 
   function Supprimer(id){
-    fetch(`http://localhost:8090/ato/signalement/${id}`, {
+    fetch(`https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/${id}`, {
       "method": "DELETE"
     })
     .then(response => response.json())
