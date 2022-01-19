@@ -15,6 +15,7 @@ import {
   } from "reactstrap";
   import PanelHeader from "components/PanelHeader/PanelHeader.js";
   import { thead, tbody } from "variables/TabRegions";
+
   
   // function afficher(){
   //   return(
@@ -25,9 +26,8 @@ import {
   function ListeRegions(){
     const [modalFicheRegion , setModalIsOpen]=useState(false)
     const [id, setId]=useState(1);
-    const modalStyle={
-      height: 1000
-    }
+    const [nom,setNom]=useState(null);
+    console.log(id);
     const [data, setData]=useState(null);
     const [loading,setLoading]=useState(true);
     const [error , setError]= useState(null);
@@ -52,7 +52,8 @@ import {
       });
     },[]);
     if (loading) return "Loading ...";
-    if (error) return "Error!"; 
+    if (error) return "Error!";
+    
       return (
       <>
       <PanelHeader size="sm" />
@@ -82,25 +83,16 @@ import {
                     {data.map((prop, key) => {
                       return (
                         <tr key={key}>
-                           <td  className="text-right">
+                           <td key='nom' className="text-right">
                             {prop.nom}
                           </td>
                           <td key='chef de region' className="text-right">
                             {prop.nom}
                           </td>
                           <td key='Afficher'>
-                            <a ><button type="button" className="btn btn-primary" onClick={()=> setModalIsOpen(true)}  >Afficher</button></a>
+                            <a ><button type="button" className="btn btn-primary" onClick={()=> {setModalIsOpen(true);setId(prop.id);setNom(prop.nom)}}  >Afficher</button></a>
                           
                           </td>
-                          {/* {prop.data.map((prop, key) => {
-                            if (key === thead.length - 1)
-                              return (
-                                <td key={key} className="text-right">
-                                  {prop} <button type="button" className="btn btn-primary" onClick={()=> setModalIsOpen(true)} >Afficher</button>
-                                </td>
-                              );
-                            return <td key={key}>{prop}</td>;
-                          })} */}
                         </tr>
                       );
                     })}
@@ -123,13 +115,14 @@ import {
           display: 'block', width: 700, padding: 30
       }}>
         
-        <ModalHeader>Le region Itasy</ModalHeader>
+        <ModalHeader>le region de {nom}</ModalHeader>
+      
       <ModalBody>
-           <p>Modal body text goes here.</p>
-           <p>Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte. Il n'a pas fait que survivre cinq siècles, mais s'est aussi adapté à la bureautique informatique, sans que son contenu n'en soit modifié. Il a été popularisé dans les années 1960 grâce à la vente de feuilles Letraset contenant des passages du Lorem Ipsum, et, plus récemment, par son inclusion dans des applications de mise en page de texte, comme Aldus PageMaker.</p>
+           <p> region de {nom} sur la carte de Madagascar</p>
+           <img src={require("assets/img/diana.jpg").default} className="avatar border-gray" alt="Photo " />
            </ModalBody>
            <ModalFooter>
-                    <Button color="primary" onClick={()=> setModalIsOpen(false)}>Okay</Button>
+                    <Button color="primary" onClick={()=> setModalIsOpen(false)}>OK</Button>
                 </ModalFooter>
       </Modal>
       </>

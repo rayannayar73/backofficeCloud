@@ -57,7 +57,9 @@ function User(props) {
     "type" : {"nom": "...","id":""},
     "utilisateur": {"nom": "...", "prenom": "...","id":""},
     "etat": {"nom": "...","id":""},
-    "description": "..."
+    "description": "...",
+    "dateSignalement": "...",
+    "dateFinSignalement": "..."
   });
 
   //ito le id avy any @parametre
@@ -70,8 +72,15 @@ function User(props) {
   const [etat, setEtat] = useState({ value:dataSignalement.etat.id, label:dataSignalement.etat.nom });
   const [utilisateur, setUtilisateur] = useState({ value:dataSignalement.utilisateur.id, label:dataSignalement.utilisateur.nom });
   const [description, setDescription] = useState(dataSignalement.description);
-  const [region, setRegion] = useState({ value:dataSignalement.region.id, label:dataSignalement.nom });
+  const [region, setRegion] = useState({ value:(dataSignalement.region)? dataSignalement.region.id : '', label:(dataSignalement.region)? dataSignalement.region.nom : '...' });
+  const [dateDebut, setDateDebut] = useState(dataSignalement.dateSignalement);
+  const [dateFin, setDateFin] = useState(dataSignalement.dateFinSignalement);
+
   const [compteur, setCompteur] = useState(true);
+  const listeRegion = [];
+  const listeUtilisateur = [];
+  const listeType = [];
+  const listeEtat = [];
 
 const putData = async (e) =>{
   e.preventDefault();
@@ -82,9 +91,11 @@ const putData = async (e) =>{
         description,
         type: type.value,
         etat: etat.value,
-        utilisateur: utilisateur.value
+        utilisateur: utilisateur.value,
+        dateSignalement: dateDebut,
+        dateFinSignalement: dateFin
       };
-    let res = await axios.put('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/'+id, donnees);
+    let res = await axios.put('http://localhost:8090/ato/signalement/'+id, donnees);
     let data = res.data;
     setId(data.id);
     setCompteur(true);
@@ -99,10 +110,12 @@ const postData = async (e) =>{
         description,
         type: type.value,
         etat: etat.value,
-        utilisateur: utilisateur.value 
+        utilisateur: utilisateur.value,
+        dateSignalement: dateDebut,
+        dateFinSignalement: dateFin 
       };
       console.log(donnees);
-    let res = await axios.post('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement', donnees);
+    let res = await axios.post('http://localhost:8090/ato/signalement', donnees);
     let data = res.data;
     setId(data.id);
     setCompteur(true);
@@ -117,12 +130,14 @@ const postData = async (e) =>{
     setData(data);
     setDataSignalement(data[0]);
     setDescription(data[0].description);
-    setRegion({value:data[0].region.id});
+    (data[0].region)?setRegion({value:data[0].region.id}) : setRegion(null);
     setUtilisateur({value:data[0].utilisateur.id});
     setLongitude(data[0].longitude);
     setLatitude(data[0].latitude);
     setEtat({value:data[0].etat.id});
     setType({value:data[0].type.id});
+    setDateDebut(data[0].dateSignalement);
+    setDateFin(data[0].dateFinSignalement);
     setCompteur(false);
   }
 
@@ -142,7 +157,7 @@ const postData = async (e) =>{
         }).then(function (data) {
             setter(data);
         }).catch((error) => {
-            data.splice(0,0,dataSignalement);
+            // data.splice(0,0,dataSignalement);
             console.error("Error fetching data: ", error);
             setError(error);
         }).finally(() => {
@@ -177,31 +192,23 @@ const postData = async (e) =>{
   useEffect(() => {
     getData();
     console.log(data);
-    console.log(etat);
   }, [compteur]); 
 
   if (loading) return "Loading..."; 
   if (error) return "Error!";
 
-const listeRegion = [];
-{data[1].forEach(regionObj => {
-  listeRegion.push({ value:regionObj.id, label:regionObj.nom });
-})}  
+  function listeObjet(liste,listeRetour){
+    liste.forEach(obj => {
+      listeRetour.push({ value:obj.id, label:obj.nom });
+    })
+  }
+  listeObjet(data[1],listeRegion);
+  listeObjet(data[3],listeType);
+  listeObjet(data[4],listeEtat);
+  {data[2].forEach(userObj => {
+    listeUtilisateur.push({ value:userObj.id, label:userObj.nom+" "+userObj.prenom });
+  })}  
 
-const listeUtilisateur = [];
-{data[2].forEach(userObj => {
-  listeUtilisateur.push({ value:userObj.id, label:userObj.nom+" "+userObj.prenom });
-})}  
-
-const listeType = [];
-{data[3].forEach(typeObj => {
-  listeType.push({ value:typeObj.id, label:typeObj.nom });
-})}  
-
-const listeEtat = [];
-{data[4].forEach(typeObj => {
-  listeEtat.push({ value:typeObj.id, label:typeObj.nom });
-})}  
 
 return (
     <>
@@ -218,17 +225,21 @@ return (
                   <a href="#pablo" >
                     <h5 className="title">fiche individuelle signalement:</h5>
                   </a>
-                  <p className="region">Region: {dataSignalement.region.nom}</p>
+                  <p className="region">Region: {(dataSignalement.region)? dataSignalement.region.nom : "..."}</p>
                   <p className="longitute">longitude: {dataSignalement.longitude}</p>
                   <p className="latitude">latitude: {dataSignalement.latitude}</p>
                   <p className="type">type: {dataSignalement.type.nom}</p>
                   <p className="type">user: {dataSignalement.utilisateur.nom +" "+ dataSignalement.utilisateur.prenom}</p>
                   <p className="etat">etat: {dataSignalement.etat.nom}</p>
+                  <p className="etat">date de signalement: {new Date(dataSignalement.dateSignalement).toDateString()}</p>
+                  <p className="etat">date fin des travaux: 
+                    {(dataSignalement.dateFinSignalement)? new Date(dataSignalement.dateFinSignalement).toDateString() : ' ...'}
+                  </p>
                 </div>
                 <hr />
                 <br/>
                 <p className="descri text-center">
-                  {dataSignalement.description} 
+                Description:{"  "+dataSignalement.description} 
                 </p>
               </CardBody>
             </Card>
@@ -248,18 +259,6 @@ return (
                           placeholder="nom du region"
                           onChange={setRegion}
                           options={listeRegion}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Utilisateur</label>
-                        <Select
-                          placeholder="nom de l'utilisateur"
-                          onChange={setUtilisateur}
-                          options={listeUtilisateur}
                         />
                       </FormGroup>
                     </Col>
@@ -287,6 +286,28 @@ return (
                     </Col>
                   </Row>
                   <Row>
+                  <Col md="12">
+                      <FormGroup>
+                        <label>Type</label>
+                        <Select
+                          placeholder="type"
+                          onChange={setType}
+                          options={listeType}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Utilisateur</label>
+                        <Select
+                          placeholder="nom de l'utilisateur"
+                          onChange={setUtilisateur}
+                          options={listeUtilisateur}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
                     <Col md="12">
                       <FormGroup>
                       <label>Etat</label>
@@ -298,13 +319,24 @@ return (
                         />
                       </FormGroup>
                     </Col>
-                    <Col md="12">
+                  </Row>
+                  <Row>
+                    <Col className="px-1" md="6">
                       <FormGroup>
-                        <label>Type</label>
-                        <Select
-                          placeholder="type"
-                          onChange={setType}
-                          options={listeType}
+                        <label>date debut</label>
+                        <Input
+                        onChange={event => setDateDebut(event.target.value)} 
+                          placeholder="mettez ici la description du signalement"
+                          type="date"
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col className="px-1" md="6">
+                      <FormGroup>
+                        <label>date debut</label>
+                        <Input
+                          onChange={event => setDateFin(event.target.value)} 
+                          type="date"
                         />
                       </FormGroup>
                     </Col>
@@ -314,10 +346,7 @@ return (
                       <FormGroup>
                         <label>Description</label>
                         <Input
-                        onChange={event => setDescription(event.target.value)} 
-                          cols="80"
-                          placeholder="mettez ici la description du signalement"
-                          rows="4"
+                          onChange={event => setDescription(event.target.value)} 
                           type="textarea"
                         />
                       </FormGroup>

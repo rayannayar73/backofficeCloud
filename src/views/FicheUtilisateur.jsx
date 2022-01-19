@@ -18,6 +18,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { Link, useLocation, BrowserRouter as Router } from "react-router-dom";
+import Select from 'react-select';
 
 // reactstrap components
 import {
@@ -35,6 +36,8 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+const axios = require('axios');
+
 function useQuery(){
   return new URLSearchParams(useLocation().search);
 }
@@ -44,31 +47,70 @@ function User(props) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const dataUtilisateur = {
+    "nom" : {"nom" : "..."},
+    "prenom" : "..."
+  };
 
-  //ito le id azo avy any @parametre ohatran'ny $_Get taloha
   var id=useQuery().get("id");
-  if (id==null){ id = 1}
+
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+
+  const putData = async (e) =>{
+    e.preventDefault();
+    const donnees = { 
+          nom,
+          prenom
+        };
+      let res = await axios.put('http://localhost:8090/ato/utilisateur/'+id, donnees);
+      let data = res.data;
+      id = data.id;
+  }
+
+  const postData = async (e) =>{
+    e.preventDefault();
+    const donnees = { 
+          nom,
+          prenom 
+        };
+        console.log(donnees);
+      let res = await axios.post('http://localhost:8090/ato/utilisateur', donnees);
+      let data = res.data;
+      id = data.id;
+  }
+
+  const clearPostOutput = (e) => {
+    e.preventDefault();
+    document.getElementById("myFormRef").reset();
+  }
+
+  function getData(){
+    if(id){
+      Promise.all([
+      fetch('http://localhost:8090/ato/utilisateur/'+id)
+      ]).then(function (responses) {
+        return Promise.all(responses.map(function (response) {
+          return response.json();
+        }));
+      }).then(function (data) {
+          setData(data);
+      }).catch((error) => {
+          data.splice(0,0,dataUtilisateur);
+          console.error("Error fetching data: ", error);
+          setError(error);
+        }).finally(() => {
+          setLoading(false);
+        });
+    }
+    if(!id){
+      data.splice(0,0,dataUtilisateur);
+    }
+  }
 
   useEffect(() => {
-    //ato le lien no apetraka
-    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur"+id)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw response;
-      })
-      //dia tafiditra ato anaty variable data le données rehetra. dia io ftsn no ampiasaina any ambany
-      .then((data) => {
-        setData(data);
-      })
-      .catch((error) => {
-        console.error("Error fetching data: ", error);
-        setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    getData();
+    console.log(data);
   }, []);
 
   if (loading) return "Loading...";
@@ -86,11 +128,11 @@ function User(props) {
               </div>
               <CardBody>
                 <div className="author">
-                  <a href="#pablo" onClick={(e) => e.preventDefault()}>
+                  <a href="#pablo" >
                     <h5 className="title">fiche individuelle utilisateur:</h5>
                   </a>
-                  <p className="nom">Nom: {data.nom}</p>
-                  <p className="prenom">Prenom: {data.prenom}</p>
+                  <p className="nom">Nom: {data[0].nom}</p>
+                  <p className="prenom">Prenom: {data[0].prenom}</p>
                 </div>
                 <hr />
                 <br/>
@@ -109,9 +151,11 @@ function User(props) {
                       <FormGroup>
                         <label>Nom</label>
                         <Input
-                          placeholder="nom de l' utilisateur"
-                          type="text"
-                          ref={nom}
+                        onChange={event => setNom(event.target.value)} 
+                          cols="80"
+                          placeholder="veuillez saisir votre nom"
+                          rows="4"
+                          type="textarea"
                         />
                       </FormGroup>
                     </Col>
@@ -121,14 +165,16 @@ function User(props) {
                       <FormGroup>
                         <label>Prenom</label>
                         <Input
-                          placeholder="prenom de l'utilisateur"
-                          type="text"
-                          ref={prenom}
+                        onChange={event => setPrenom(event.target.value)} 
+                          cols="80"
+                          placeholder="veuillez saisir votre prenom"
+                          rows="4"
+                          type="textarea"
                         />
                       </FormGroup>
                     </Col>
                   </Row>
-                  <button className="btn btn-sm btn-success" onClick={postData}>valider</button>
+                  <button className="btn btn-sm btn-success" onClick={(id)? putData : postData}>valider</button>
                   <button className="btn btn-sm btn-warning ml-2" onClick={clearPostOutput}>annuler</button>
                 </Form>
               </CardBody>
