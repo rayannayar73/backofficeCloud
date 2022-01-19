@@ -57,7 +57,9 @@ function User(props) {
     "type" : {"nom": "...","id":""},
     "utilisateur": {"nom": "...", "prenom": "...","id":""},
     "etat": {"nom": "...","id":""},
-    "description": "..."
+    "description": "...",
+    "dateSignalement": "...",
+    "dateFinSignalement": "..."
   });
 
   //ito le id avy any @parametre
@@ -70,7 +72,7 @@ function User(props) {
   const [etat, setEtat] = useState({ value:dataSignalement.etat.id, label:dataSignalement.etat.nom });
   const [utilisateur, setUtilisateur] = useState({ value:dataSignalement.utilisateur.id, label:dataSignalement.utilisateur.nom });
   const [description, setDescription] = useState(dataSignalement.description);
-  const [region, setRegion] = useState({ value:dataSignalement.region.id, label:dataSignalement.nom });
+  const [region, setRegion] = useState({ value:(dataSignalement.region)? dataSignalement.region.id : '', label:(dataSignalement.region)? dataSignalement.region.nom : '...' });
   const [dateDebut, setDateDebut] = useState(dataSignalement.dateSignalement);
   const [dateFin, setDateFin] = useState(dataSignalement.dateFinSignalement);
 
@@ -128,7 +130,7 @@ const postData = async (e) =>{
     setData(data);
     setDataSignalement(data[0]);
     setDescription(data[0].description);
-    setRegion({value:data[0].region.id});
+    (data[0].region)?setRegion({value:data[0].region.id}) : setRegion(null);
     setUtilisateur({value:data[0].utilisateur.id});
     setLongitude(data[0].longitude);
     setLatitude(data[0].latitude);
@@ -155,7 +157,7 @@ const postData = async (e) =>{
         }).then(function (data) {
             setter(data);
         }).catch((error) => {
-            data.splice(0,0,dataSignalement);
+            // data.splice(0,0,dataSignalement);
             console.error("Error fetching data: ", error);
             setError(error);
         }).finally(() => {
@@ -189,7 +191,6 @@ const postData = async (e) =>{
 
   useEffect(() => {
     getData();
-    console.log(dataSignalement);
     console.log(data);
   }, [compteur]); 
 
@@ -224,7 +225,7 @@ return (
                   <a href="#pablo" >
                     <h5 className="title">fiche individuelle signalement:</h5>
                   </a>
-                  <p className="region">Region: {dataSignalement.region.nom}</p>
+                  <p className="region">Region: {(dataSignalement.region)? dataSignalement.region.nom : "..."}</p>
                   <p className="longitute">longitude: {dataSignalement.longitude}</p>
                   <p className="latitude">latitude: {dataSignalement.latitude}</p>
                   <p className="type">type: {dataSignalement.type.nom}</p>
