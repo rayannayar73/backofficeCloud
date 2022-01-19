@@ -51,7 +51,7 @@ import {
 function Dashboard() {
 
   const [dataSigne, setDataSigne] = useState(null);
-  
+  const liste = [];
 
   useEffect(() => {
     fetch("http://localhost:8090/ato/regions")
@@ -62,19 +62,15 @@ function Dashboard() {
         throw response;
       })
       .then((data) => {
-        for(let i=0; i<data.length;i++){
-        setDataSigne(data);
-        console.table(data[i].nom);
-      }
-
+        data.forEach(regionObj => {
+          liste.push(regionObj.nom);
+        })
+          setDataSigne(liste);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
-        setError(error);
       })
   }, []);
-
- 
 
   function hexToRGB(hex, alpha) {
     var r = parseInt(hex.slice(1, 3), 16),
@@ -148,7 +144,6 @@ function Dashboard() {
       var tabLabels=dataSigne;
       
       return {
-        
         labels: tabLabels,
         datasets: [
           {

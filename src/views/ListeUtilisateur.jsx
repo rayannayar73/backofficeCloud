@@ -33,41 +33,28 @@ import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
 import { thead, tbody } from "variables/signalements";
 
-function Ajout(){
-  return(
-    <>
-      <a href='fiche-utilisateur' className="btn btn-sm btn-success mb-2">Ajouter</a>
-    </>
-  );
-}
-
-function Modif(){
-  return(
-    <td>
-      <a href='fiche-utilisateur' className="btn btn-sm btn-primary mr-1">Modifier</a>
-    </td>
-  );
-}
-
-function Suppr(){
-  return(
-    <td>
-      <button className="btn btn-sm btn-danger btn-delete-user" >
-      <>
-        <span>Supprimer</span>
-      </>
-      </button>
-    </td>
-  );
-}
-
 function ListeUtilisateur() {
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [compteur, setCompteur] = useState(true);
+
+  function Supprimer(id){
+    fetch(`http://localhost:8090/ato/utilisateur/${id}`, {
+      "method": "DELETE"
+    })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
 
   useEffect(() => {
+    if (compteur){
     fetch("http://localhost:8090/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
@@ -77,6 +64,7 @@ function ListeUtilisateur() {
       })
       .then((data) => {
         setData(data);
+        setCompteur(false);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -85,7 +73,8 @@ function ListeUtilisateur() {
       .finally(() => {
         setLoading(false);
       });
-  }, []);
+    }
+  }, [compteur]);
 
   if (loading) return "Loading...";
   if (error) return "Error!";
@@ -128,10 +117,10 @@ function ListeUtilisateur() {
                             {prop.prenom}
                           </td>                          
                           <td key='Modifier'>
-                            <a href={'fiche-utilisateur?id='+prop.id} className="btn btn-sm btn-primary mr-1">Voir</a>
+                            <a href={'fiche-utilisateur?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
                           </td>
                           <td key='Supprimer'>
-                            <a href={'fiche-utilisateur?id='+prop.id} className="btn btn-sm btn-danger mr-1">Supprimer</a>
+                            <a onClick={() => Supprimer(prop.id) } className="btn btn-sm btn-danger mr-1">Supprimer</a>
                           </td>
                         </tr>
                       );
