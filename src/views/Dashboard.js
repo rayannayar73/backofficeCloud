@@ -64,7 +64,8 @@ function Dashboard() {
       .then((data) => {
         data.forEach(regionObj => {
           liste.push(regionObj.nom);
-        })setDataSigne(liste);
+        })
+          setDataSigne(liste);
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
