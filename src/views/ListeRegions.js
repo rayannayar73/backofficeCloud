@@ -87,7 +87,7 @@ import {
                             {prop.nom}
                           </td>
                           <td key='chef de region' className="text-right">
-                            {prop.nom}
+                            Madagascar
                           </td>
                           <td key='Afficher'>
                             <a ><button type="button" className="btn btn-primary" onClick={()=> {setModalIsOpen(true);setId(prop.id);setNom(prop.nom)}}  >Afficher</button></a>
