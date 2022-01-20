@@ -51,7 +51,7 @@ function User(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dataSignalement,setDataSignalement] = useState({
-    "region" : {"nom": "...","id":""},
+    "region" : {"nom": "...","id":null},
     "longitude" : "...",
     "latitude" : "...",
     "type" : {"nom": "...","id":""},
@@ -59,7 +59,7 @@ function User(props) {
     "etat": {"nom": "...","id":""},
     "description": "...",
     "dateSignalement": "...",
-    "dateFinSignalement": "..."
+    "dateFinSignalement": null
   });
 
   //ito le id avy any @parametre
@@ -72,9 +72,9 @@ function User(props) {
   const [etat, setEtat] = useState({ value:dataSignalement.etat.id, label:dataSignalement.etat.nom });
   const [utilisateur, setUtilisateur] = useState({ value:dataSignalement.utilisateur.id, label:dataSignalement.utilisateur.nom });
   const [description, setDescription] = useState(dataSignalement.description);
-  const [region, setRegion] = useState({ value:(dataSignalement.region)? dataSignalement.region.id : '', label:(dataSignalement.region)? dataSignalement.region.nom : '...' });
+  const [region, setRegion] = useState({ value:(dataSignalement.region)? dataSignalement.region.id : null, label:(dataSignalement.region)? dataSignalement.region.nom : '...' });
   const [dateDebut, setDateDebut] = useState(dataSignalement.dateSignalement);
-  const [dateFin, setDateFin] = useState(dataSignalement.dateFinSignalement);
+  const [dateFin, setDateFin] = useState((dataSignalement.dateFinSignalement)? dataSignalement.dateFinSignalement: null );
 
   const [compteur, setCompteur] = useState(true);
   const listeRegion = [];
