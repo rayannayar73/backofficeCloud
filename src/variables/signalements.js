@@ -1,4 +1,4 @@
-const thead = [ "region", "type", "etat"];
+const thead = [ "region", "type", "etat", "date de signalement"];
 const tbody = [
   {
     className: "",

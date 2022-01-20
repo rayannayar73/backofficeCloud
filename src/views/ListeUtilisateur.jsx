@@ -55,7 +55,7 @@ function ListeUtilisateur() {
 
   useEffect(() => {
     if (compteur){
-    fetch("http://localhost:8090/ato/utilisateur")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
           return response.json();
