@@ -41,7 +41,7 @@ function ListeUtilisateur() {
   const [compteur, setCompteur] = useState(true);
 
   function Supprimer(id){
-    fetch(`http://localhost:8090/ato/utilisateur/${id}`, {
+    fetch(`https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur/${id}`, {
       "method": "DELETE"
     })
     .then(response => response.json())
@@ -57,7 +57,7 @@ function ListeUtilisateur() {
 
   useEffect(() => {
     if (compteur){
-    fetch("http://localhost:8090/ato/utilisateur")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
           return response.json();
