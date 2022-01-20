@@ -47,76 +47,85 @@ function User(props) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const dataUtilisateur = {
-    "nom" : {"nom" : "..."},
+  const [dataUtilisateur,setDataUtilisateur] = useState({
+    "nom" : "...",
     "prenom" : "..."
-  };
+  });
 
-  var id=useQuery().get("id");
+  //ito le id avy any @parametre
+  const [id,setId]=useState(useQuery().get("id"));
+  
 
-  const [nom, setNom] = useState('');
-  const [prenom, setPrenom] = useState('');
+  const [nom, setNom] = useState((dataUtilisateur.nom)? dataUtilisateur.nom : '...');
+  const [prenom, setPrenom] = useState((dataUtilisateur.prenom)? dataUtilisateur.prenom : '...');
 
-  const putData = async (e) =>{
-    e.preventDefault();
-    const donnees = { 
-          nom,
-          prenom
-        };
-      let res = await axios.put('http://localhost:8090/ato/utilisateur/'+id, donnees);
-      let data = res.data;
-      id = data.id;
-  }
+  const [compteur, setCompteur] = useState(true);
 
-  const postData = async (e) =>{
-    e.preventDefault();
-    const donnees = { 
-          nom,
-          prenom 
-        };
-        console.log(donnees);
-      let res = await axios.post('http://localhost:8090/ato/utilisateur', donnees);
-      let data = res.data;
-      id = data.id;
-  }
+const putData = async (e) =>{
+  e.preventDefault();
+  const donnees = { nom, prenom };
+  let res = await axios.put('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur/'+id, donnees);
+  let data = res.data;
+  setId(data.id);
+  setCompteur(true);
+}
+
+const postData = async (e) =>{
+  e.preventDefault();
+  const donnees = { nom, prenom };
+  let res = await axios.post('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur', donnees);
+  let data = res.data;
+  setId(data.id);
+  setCompteur(true);
+}
 
   const clearPostOutput = (e) => {
     e.preventDefault();
     document.getElementById("myFormRef").reset();
   }
 
+  function setter(data){
+    setData(data);
+    setDataUtilisateur(data[0]);
+    setNom(data[0].nom);
+    setPrenom(data[0].prenom);
+    setCompteur(false);
+  }
+
   function getData(){
-    if(id){
-      Promise.all([
-      fetch('http://localhost:8090/ato/utilisateur/'+id)
-      ]).then(function (responses) {
-        return Promise.all(responses.map(function (response) {
-          return response.json();
-        }));
-      }).then(function (data) {
-          setData(data);
-      }).catch((error) => {
-          data.splice(0,0,dataUtilisateur);
-          console.error("Error fetching data: ", error);
-          setError(error);
+    if (compteur){
+      if(id){
+        Promise.all([
+        fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur/'+id),
+        ]).then(function (responses) {
+          return Promise.all(responses.map(function (response) {
+            return response.json();
+          }));
+        }).then(function (data) {
+            setter(data);
+        }).catch((error) => {
+            console.error("Error fetching data: ", error);
+            setError(error);
         }).finally(() => {
-          setLoading(false);
+            setLoading(false);
         });
-    }
-    if(!id){
-      data.splice(0,0,dataUtilisateur);
+      }
+      if(!id){
+        setLoading(false);
+        setCompteur(false);
+      }
     }
   }
 
   useEffect(() => {
     getData();
     console.log(data);
-  }, []);
+  }, [compteur]); 
 
-  if (loading) return "Loading...";
+  if (loading) return "Loading..."; 
   if (error) return "Error!";
 
-  return (
+return (
     <>
       <PanelHeader size="sm" />
       <div className="content">
@@ -129,10 +138,10 @@ function User(props) {
               <CardBody>
                 <div className="author">
                   <a href="#pablo" >
-                    <h5 className="title">fiche individuelle utilisateur:</h5>
+                    <h5 className="title">fiche individuelle utilisateurs:</h5>
                   </a>
-                  <p className="nom">Nom: {data[0].nom}</p>
-                  <p className="prenom">Prenom: {data[0].prenom}</p>
+                  <p className="region">Nom: {(dataUtilisateur.nom)}</p>
+                  <p className="region">prenom: {(dataUtilisateur.prenom)}</p>
                 </div>
                 <hr />
                 <br/>
@@ -142,19 +151,16 @@ function User(props) {
           <Col md="4">
             <Card>
               <CardHeader>
-                <h5 className="title">Modification données utilisateur:</h5>
+                <h5 className="title">Modification données utilisateurs:</h5>
               </CardHeader>
               <CardBody>
-                <Form>
+                <Form id="myFormRef">
                   <Row>
                     <Col md="12">
                       <FormGroup>
                         <label>Nom</label>
                         <Input
-                        onChange={event => setNom(event.target.value)} 
-                          cols="80"
-                          placeholder="veuillez saisir votre nom"
-                          rows="4"
+                          onChange={event => setNom(event.target.value)} 
                           type="textarea"
                         />
                       </FormGroup>
@@ -163,12 +169,9 @@ function User(props) {
                   <Row>
                     <Col md="12">
                       <FormGroup>
-                        <label>Prenom</label>
-                        <Input
-                        onChange={event => setPrenom(event.target.value)} 
-                          cols="80"
-                          placeholder="veuillez saisir votre prenom"
-                          rows="4"
+                      <label>Prenom</label>
+                      <Input
+                          onChange={event => setPrenom(event.target.value)} 
                           type="textarea"
                         />
                       </FormGroup>

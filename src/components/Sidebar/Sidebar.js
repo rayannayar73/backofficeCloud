@@ -69,6 +69,7 @@ function Sidebar(props) {
         <Nav>
           {props.routes.map((prop, key) => {
             if (prop.redirect) return null;
+            if(prop.name!="Affecter Signalement-Region"){
             return (
               <li
                 className={
@@ -86,7 +87,7 @@ function Sidebar(props) {
                   <p>{prop.name}</p>
                 </NavLink>
               </li>
-            );
+            )};
           })}
         </Nav>
       </div>

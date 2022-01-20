@@ -31,7 +31,7 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
-import { thead, tbody } from "variables/signalements";
+import { thead, tbody } from "variables/utilisateur";
 
 function ListeUtilisateur() {
 
@@ -47,6 +47,8 @@ function ListeUtilisateur() {
     .then(response => response.json())
     .then(response => {
       console.log(response);
+      setCompteur(true);
+      
     })
     .catch(err => {
       console.log(err);
@@ -55,7 +57,7 @@ function ListeUtilisateur() {
 
   useEffect(() => {
     if (compteur){
-    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur")
+    fetch("http://localhost:8090/ato/utilisateur")
       .then((response) => {
         if (response.ok) {
           return response.json();

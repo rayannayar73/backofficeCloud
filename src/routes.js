@@ -27,6 +27,7 @@ import UserPage from "views/UserPage.js";
 import FicheSignalement from "views/FicheSignalement.jsx";
 import ListeUtilisateur from "views/ListeUtilisateur.jsx";
 import FicheUtilisateur from "views/FicheUtilisateur.jsx";
+import AffectationSignalementRegion from "views/AffectationSignalementRegion.jsx";
 
 var dashRoutes = [
   {
@@ -43,25 +44,18 @@ var dashRoutes = [
   //   component: Icons,
   //   layout: "/admin",
   // },
+  // {
+  //   path: "/maps",
+  //   name: "Maps",
+  //   icon: "location_map-big",
+  //   component: Maps,
+  //   layout: "/admin",
+  // },
   {
-    path: "/maps",
-    name: "Maps",
-    icon: "location_map-big",
-    component: Maps,
-    layout: "/admin",
-  },
-  {
-    path: "/notifications",
-    name: "Notifications",
-    icon: "ui-1_bell-53",
-    component: Notifications,
-    layout: "/admin",
-  },
-  {
-    path: "/user-page",
-    name: "User Profile",
-    icon: "users_single-02",
-    component: UserPage,
+    path: "/attribution-signalement-region",
+    name: "Affecter Signalement-Region",
+    icon: "design-2_ruler-pencil",
+    component: AffectationSignalementRegion,
     layout: "/admin",
   },
   {
@@ -78,13 +72,6 @@ var dashRoutes = [
     component: ListeSignalements,
     layout: "/admin",
   },
-  // {
-  //   path: "/typography",
-  //   name: "Typography",
-  //   icon: "design-2_ruler-pencil",
-  //   component: Typography,
-  //   layout: "/admin",
-  // },
   {
     path: "/fiche-signalement",
     name: "fiche-signalement",

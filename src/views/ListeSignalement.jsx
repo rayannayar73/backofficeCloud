@@ -118,7 +118,7 @@ function ListeSignalements() {
                       return (
                         <tr key={key}>
                           <td key='region' className="text-right">
-                            {(prop.region==null)? "..." : prop.region.nom }
+                            {(prop.region==null)? <a href={'attribution-signalement-region?id='+prop.id}><i className={"now-ui-icons ui-1_simple-add"} /></a> : prop.region.nom }
                           </td>
                           <td key='type' className="text-right">
                             {prop.type.nom}
