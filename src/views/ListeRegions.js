@@ -27,7 +27,10 @@ import {
     const [modalFicheRegion , setModalIsOpen]=useState(false)
     const [id, setId]=useState(1);
     const [nom,setNom]=useState(null);
-    console.log(id);
+    const [image,setImage]=useState(null);
+    // const tay="assets/img/bg5.jpg";
+    // const src= require(tay).default;
+    console.log(image);
     const [data, setData]=useState(null);
     const [loading,setLoading]=useState(true);
     const [error , setError]= useState(null);
@@ -90,7 +93,7 @@ import {
                             Madagascar
                           </td>
                           <td key='Afficher'>
-                            <a ><button type="button" className="btn btn-primary" onClick={()=> {setModalIsOpen(true);setId(prop.id);setNom(prop.nom)}}  >Afficher</button></a>
+                            <a ><button type="button" className="btn btn-primary" onClick={()=> {setModalIsOpen(true);setId(prop.id);setNom(prop.nom);setImage(prop.image)}}  >Afficher</button></a>
                           
                           </td>
                         </tr>
@@ -118,8 +121,8 @@ import {
         <ModalHeader>le region de {nom}</ModalHeader>
       
       <ModalBody>
-           <p> region de {nom} sur la carte de Madagascar</p>
-           <img src={require("assets/img/diana.jpg").default} className="avatar border-gray" alt="Photo " />
+           <p> region de {nom} sur la carte de Madagascar {image}</p>
+           <img src={require("assets/img/bg5.jpg").default} className="avatar border-gray" alt="Photo " />
            </ModalBody>
            <ModalFooter>
                     <Button color="primary" onClick={()=> setModalIsOpen(false)}>OK</Button>
