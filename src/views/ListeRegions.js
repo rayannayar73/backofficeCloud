@@ -122,7 +122,7 @@ import {
       
       <ModalBody>
            <p> region de {nom} sur la carte de Madagascar {image}</p>
-           <img src={require("assets/img/diana.jpg").default} className="avatar border-gray" alt="Photo " />
+           <img src={require("assets/img/anosy.jpg").default} className="avatar border-gray" alt="Photo " />
            </ModalBody>
            <ModalFooter>
                     <Button color="primary" onClick={()=> setModalIsOpen(false)}>OK</Button>
