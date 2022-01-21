@@ -1,4 +1,4 @@
-const thead=["Nom", "Chef de region","voir +"];
+const thead=["Nom", "Pays","voir +"];
 const tbody=[
     {
         className: "table-success",
