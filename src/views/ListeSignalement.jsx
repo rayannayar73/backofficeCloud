@@ -42,7 +42,7 @@ function ListeSignalements() {
   const [compteur, setCompteur] = useState(true);
 
   function Supprimer(id){
-    fetch(`http://localhost:8090/ato/signalement/${id}`, {
+    fetch(`https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/${id}`, {
       "method": "DELETE"
     })
     .then(response => response.json())
@@ -57,7 +57,7 @@ function ListeSignalements() {
 
   useEffect(() => {
     if (compteur){
-    fetch("http://localhost:8090/ato/signalement")
+    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/signalement")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -118,7 +118,7 @@ function ListeSignalements() {
                       return (
                         <tr key={key}>
                           <td key='region' className="text-right">
-                            {(prop.region==null)? "..." : prop.region.nom }
+                            {(prop.region==null)? <a href={'attribution-signalement-region?id='+prop.id}><i className={"now-ui-icons ui-1_simple-add"} /></a> : prop.region.nom }
                           </td>
                           <td key='type' className="text-right">
                             {prop.type.nom}

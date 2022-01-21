@@ -45,13 +45,10 @@ function useQuery(){
 function User(props) {
 
   const [data, setData] = useState(null);
-  const [dataType, setDataType] = useState(null);
-  const [dataRegion,setDataRegion] = useState(null);
-  const [dataEtat,setDataEtat] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [dataSignalement,setDataSignalement] = useState({
-    "region" : {"nom": "...","id":null},
+    "region" : {"nom": "...","id":""},
     "longitude" : "...",
     "latitude" : "...",
     "type" : {"nom": "...","id":""},
@@ -59,7 +56,7 @@ function User(props) {
     "etat": {"nom": "...","id":""},
     "description": "...",
     "dateSignalement": "...",
-    "dateFinSignalement": null
+    "dateFinSignalement": "..."
   });
 
   //ito le id avy any @parametre
@@ -72,9 +69,9 @@ function User(props) {
   const [etat, setEtat] = useState({ value:dataSignalement.etat.id, label:dataSignalement.etat.nom });
   const [utilisateur, setUtilisateur] = useState({ value:dataSignalement.utilisateur.id, label:dataSignalement.utilisateur.nom });
   const [description, setDescription] = useState(dataSignalement.description);
-  const [region, setRegion] = useState({ value:(dataSignalement.region)? dataSignalement.region.id : null, label:(dataSignalement.region)? dataSignalement.region.nom : '...' });
+  const [region, setRegion] = useState({ value:(dataSignalement.region)? dataSignalement.region.id : '', label:(dataSignalement.region)? dataSignalement.region.nom : '...' });
   const [dateDebut, setDateDebut] = useState(dataSignalement.dateSignalement);
-  const [dateFin, setDateFin] = useState((dataSignalement.dateFinSignalement)? dataSignalement.dateFinSignalement: null );
+  const [dateFin, setDateFin] = useState(dataSignalement.dateFinSignalement);
 
   const [compteur, setCompteur] = useState(true);
   const listeRegion = [];
@@ -247,7 +244,7 @@ return (
           <Col md="4">
             <Card>
               <CardHeader>
-                <h5 className="title">Modification données signalement:</h5>
+                <h5 className="title">Attribution signalement a une region:</h5>
               </CardHeader>
               <CardBody>
                 <Form id="myFormRef">
@@ -263,96 +260,7 @@ return (
                       </FormGroup>
                     </Col>
                   </Row>
-                  <Row>
-                    <Col className="px-1" md="6">
-                      <FormGroup>
-                        <label>Longitude</label>
-                        <Input
-                          onChange={event => setLongitude(event.target.value)} 
-                          placeholder="Longitude"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="6">
-                      <FormGroup>
-                        <label>Latitude</label>
-                        <Input
-                        onChange={event => setLatitude(event.target.value)} 
-                          placeholder="Latitude"
-                          type="text"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                  <Col md="12">
-                      <FormGroup>
-                        <label>Type</label>
-                        <Select
-                          placeholder="type"
-                          onChange={setType}
-                          options={listeType}
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Utilisateur</label>
-                        <Select
-                          placeholder="nom de l'utilisateur"
-                          onChange={setUtilisateur}
-                          options={listeUtilisateur}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                      <label>Etat</label>
-                      <Select
-                          // className="form-select bg-secondary text-light"
-                          placeholder="etat"
-                          onChange={setEtat}
-                          options={listeEtat}
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className="px-1" md="6">
-                      <FormGroup>
-                        <label>date debut</label>
-                        <Input
-                        onChange={event => setDateDebut(event.target.value)} 
-                          placeholder="mettez ici la description du signalement"
-                          type="date"
-                        />
-                      </FormGroup>
-                    </Col>
-                    <Col className="px-1" md="6">
-                      <FormGroup>
-                        <label>date debut</label>
-                        <Input
-                          onChange={event => setDateFin(event.target.value)} 
-                          type="date"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col md="12">
-                      <FormGroup>
-                        <label>Description</label>
-                        <Input
-                          onChange={event => setDescription(event.target.value)} 
-                          type="textarea"
-                        />
-                      </FormGroup>
-                    </Col>
-                  </Row>
-                  <button className="btn btn-sm btn-success" onClick={(id)? putData : postData}>valider</button>
+                  <button className="btn btn-sm btn-success" onClick={putData}>valider</button>
                   <button className="btn btn-sm btn-warning ml-2" onClick={clearPostOutput}>annuler</button>
                 </Form>
               </CardBody>

@@ -31,7 +31,7 @@ import {
 // core components
 import PanelHeader from "components/PanelHeader/PanelHeader.js";
 import { Link } from 'react-router-dom';
-import { thead, tbody } from "variables/signalements";
+import { thead, tbody } from "variables/utilisateur";
 
 function ListeUtilisateur() {
 
@@ -41,12 +41,14 @@ function ListeUtilisateur() {
   const [compteur, setCompteur] = useState(true);
 
   function Supprimer(id){
-    fetch(`http://localhost:8090/ato/utilisateur/${id}`, {
+    fetch(`https://projetcloudrayansedraravo.herokuapp.com/ato/utilisateur/${id}`, {
       "method": "DELETE"
     })
     .then(response => response.json())
     .then(response => {
       console.log(response);
+      setCompteur(true);
+      
     })
     .catch(err => {
       console.log(err);
