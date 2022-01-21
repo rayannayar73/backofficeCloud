@@ -27,16 +27,14 @@ import {
     const [modalFicheRegion , setModalIsOpen]=useState(false)
     const [id, setId]=useState(1);
     const [nom,setNom]=useState(null);
-    const [image,setImage]=useState(null);
-    // const tay="assets/img/bg5.jpg";
-    // const src= require(tay).default;
-    console.log(image);
+    const [image,setImage]=useState('analamanga.jpg');
+    console.log(nom);
     const [data, setData]=useState(null);
     const [loading,setLoading]=useState(true);
     const [error , setError]= useState(null);
 
     useEffect(()=>{
-      fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/regions")
+      fetch("http://localhost:8090/ato/regions")
       .then((response)=> {
         if(response.ok){
           return response.json();
@@ -122,7 +120,7 @@ import {
       
       <ModalBody>
            <p> region de {nom} sur la carte de Madagascar {image}</p>
-           <img src={require("assets/img/boeny.jpg").default} className="avatar border-gray" alt="Photo " />
+           <img src={require("assets/img/"+image).default} className="avatar border-gray" alt="Photo " />
            </ModalBody>
            <ModalFooter>
                     <Button color="primary" onClick={()=> setModalIsOpen(false)}>OK</Button>
