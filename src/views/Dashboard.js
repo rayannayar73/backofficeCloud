@@ -51,25 +51,36 @@ import {
 function Dashboard() {
 
   const [dataSigne, setDataSigne] = useState(null);
+  const [dataTer, setDataTer] = useState(null);
+  const [dataNouv, setDataNouv] = useState(null);
   const liste = [];
 
-  useEffect(() => {
-    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/regions")
-      .then((response) => {
-        if (response.ok) {  
-          return response.json();
-        }
-        throw response;
-      })
-      .then((data) => {
-        data.forEach(regionObj => {
-          liste.push(regionObj.nom);
-        })
-          setDataSigne(liste);
-      })
-      .catch((error) => {
+  function setter(data){
+    setDataSigne(data[0]);
+    setDataTer(data[1]);
+    //setDataNouv(data[2]);
+  }
+
+  function getData(){
+    Promise.all([
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/jour'),
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Terminé/jour')
+    //fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/jour'),
+    ]).then(function (responses) {
+      return Promise.all(responses.map(function (response) {
+        return response.json();
+      }));
+    }).then(function (data) {
+        setter(data);
+    }).catch((error) => {
+        // data.splice(0,0,dataSignalement);
         console.error("Error fetching data: ", error);
-      })
+        setError(error);
+    });
+  }
+
+  useEffect(() => {
+    getData();
   }, []);
 
   function hexToRGB(hex, alpha) {
@@ -140,11 +151,85 @@ function Dashboard() {
       gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
       gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
   
-      var tab=[40, 500, 650, 700, 1200, 1250, 1300, 1900];
+      var tab=[10, 20, 30, 40, 50, 60, 70, 80];
       var tabLabels=dataSigne;
       
       return {
         labels: tabLabels,
+        datasets: [
+          {
+            label: "Email Stats",
+            borderColor: "#18ce0f",
+            pointBorderColor: "#FFF",
+            pointBackgroundColor: "#18ce0f",
+            pointBorderWidth: 2,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 1,
+            pointRadius: 4,
+            fill: true,
+            backgroundColor: gradientFill,
+            borderWidth: 2,
+            tension: 0.4,
+            data: tab,
+          },
+        ],
+      };
+    },
+    options: gradientChartOptionsConfigurationWithNumbersAndGrid,
+  };
+
+  const dashboardAllProductsChartTermine = {
+    dataT: (canvas) => {
+      var ctx = canvas.getContext("2d");
+      var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      gradientStroke.addColorStop(0, "#18ce0f");
+      gradientStroke.addColorStop(1, chartColor);
+      var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
+      gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+      gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
+  
+      var tab=[10, 20, 30, 40, 50, 60, 70, 80];
+      var tabLabel=dataTer;
+      
+      return {
+        labels: tabLabel,
+        datasets: [
+          {
+            label: "Email Stats",
+            borderColor: "#18ce0f",
+            pointBorderColor: "#FFF",
+            pointBackgroundColor: "#18ce0f",
+            pointBorderWidth: 2,
+            pointHoverRadius: 4,
+            pointHoverBorderWidth: 1,
+            pointRadius: 4,
+            fill: true,
+            backgroundColor: gradientFill,
+            borderWidth: 2,
+            tension: 0.4,
+            data: tab,
+          },
+        ],
+      };
+    },
+    options: gradientChartOptionsConfigurationWithNumbersAndGrid,
+  };
+
+  const dashboardAllProductsChartNouveau = {
+    dataN: (canvas) => {
+      var ctx = canvas.getContext("2d");
+      var gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+      gradientStroke.addColorStop(0, "#18ce0f");
+      gradientStroke.addColorStop(1, chartColor);
+      var gradientFill = ctx.createLinearGradient(0, 170, 0, 50);
+      gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
+      gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
+  
+      var tab=[10, 20, 30, 40, 50, 60, 70, 80];
+      var tabLabe=dataNouv;
+      
+      return {
+        labels: tabLabe,
         datasets: [
           {
             label: "Email Stats",
@@ -173,8 +258,8 @@ function Dashboard() {
         size="lg"
         content={
           <Line
-            data={dashboardPanelChart.data}
-            options={dashboardPanelChart.options}
+            data={dashboardAllProductsChart.data}
+            options={dashboardAllProductsChart.options}
           />
         }
       />
@@ -185,7 +270,7 @@ function Dashboard() {
             <Card className="card-chart">
               <CardHeader>
                 <h5 className="card-category">2021-2022</h5>
-                <CardTitle tag="h4">Tous les signalements</CardTitle>
+                <CardTitle tag="h4">Nouveau signalements</CardTitle>
                 <UncontrolledDropdown>
                   <DropdownMenu right>
                     <DropdownItem>Action</DropdownItem>
@@ -200,8 +285,8 @@ function Dashboard() {
               <CardBody>
                 <div className="chart-area">
                   <Line
-                    data={dashboardAllProductsChart.data}
-                    options={dashboardAllProductsChart.options}
+                    //data={dashboardAllProductsChartNouveau.dataN}
+                    //options={dashboardAllProductsChartNouveau.options}
                   />
                 </div>
               </CardBody>
@@ -222,8 +307,8 @@ function Dashboard() {
               <CardBody>
                 <div className="chart-area">
                   <Bar
-                    data={dashboard24HoursPerformanceChart.data}
-                    options={dashboard24HoursPerformanceChart.options}
+                    data={dashboardAllProductsChartTermine.dataT}
+                    options={dashboardAllProductsChartTermine.options}
                   />
                 </div>
               </CardBody>
