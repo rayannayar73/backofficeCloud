@@ -58,14 +58,14 @@ function Dashboard() {
   function setter(data){
     setDataSigne(data[0]);
     setDataTer(data[1]);
-    //setDataNouv(data[2]);
+    setDataNouv(data[2]);
   }
 
   function getData(){
     Promise.all([
     fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/jour'),
-    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Terminé/jour')
-    //fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/jour'),
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Terminé/jour'),
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Nouveau/jour'),
     ]).then(function (responses) {
       return Promise.all(responses.map(function (response) {
         return response.json();
@@ -158,7 +158,7 @@ function Dashboard() {
         labels: tabLabels,
         datasets: [
           {
-            label: "Email Stats",
+            label: "signalement",
             borderColor: "#18ce0f",
             pointBorderColor: "#FFF",
             pointBackgroundColor: "#18ce0f",
@@ -195,7 +195,7 @@ function Dashboard() {
         labels: tabLabel,
         datasets: [
           {
-            label: "Email Stats",
+            label: "signalement",
             borderColor: "#18ce0f",
             pointBorderColor: "#FFF",
             pointBackgroundColor: "#18ce0f",
@@ -232,7 +232,7 @@ function Dashboard() {
         labels: tabLabe,
         datasets: [
           {
-            label: "Email Stats",
+            label: "signalement",
             borderColor: "#18ce0f",
             pointBorderColor: "#FFF",
             pointBackgroundColor: "#18ce0f",
@@ -285,8 +285,8 @@ function Dashboard() {
               <CardBody>
                 <div className="chart-area">
                   <Line
-                    //data={dashboardAllProductsChartNouveau.dataN}
-                    //options={dashboardAllProductsChartNouveau.options}
+                    data={dashboardAllProductsChartNouveau.dataN}
+                    options={dashboardAllProductsChartNouveau.options}
                   />
                 </div>
               </CardBody>
