@@ -51,14 +51,22 @@ import {
 function Dashboard() {
 
   const [dataSigne, setDataSigne] = useState(null);
+  const [nombreSigne, setNombreSigne] = useState(null);
   const [dataTer, setDataTer] = useState(null);
+  const [nombreTer, setNombreTer] = useState(null);
   const [dataNouv, setDataNouv] = useState(null);
+  const [nombreNouv, setNombreNouv] = useState(null);
   const liste = [];
+  const listeSigne = [];
+  const listeTer = [];
 
   function setter(data){
     setDataSigne(data[0]);
+    setNombreSigne(data[3]);
     setDataTer(data[1]);
+    setNombreTer(data[4]);
     setDataNouv(data[2]);
+    setNombreNouv(data[5]);
   }
 
   function getData(){
@@ -66,6 +74,9 @@ function Dashboard() {
     fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/jour'),
     fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Terminé/jour'),
     fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Nouveau/jour'),
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-nombre/jour'),
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Terminé-nombre/jour'),
+    fetch('https://projetcloudrayansedraravo.herokuapp.com/ato/signalement-Nouveau-nombre/jour'),
     ]).then(function (responses) {
       return Promise.all(responses.map(function (response) {
         return response.json();
@@ -78,10 +89,20 @@ function Dashboard() {
         setError(error);
     });
   }
-
   useEffect(() => {
     getData();
   }, []);
+  
+  if(nombreNouv)listeObjet(nombreNouv,liste);
+  if(nombreSigne)listeObjet(nombreSigne,listeSigne);
+  if(nombreTer)listeObjet(nombreTer,listeTer);
+
+  function listeObjet(liste,listeRetour){
+    liste.forEach(obj => {
+      listeRetour.push(obj[0]);
+    })
+  }
+console.log(liste);
 
   function hexToRGB(hex, alpha) {
     var r = parseInt(hex.slice(1, 3), 16),
@@ -151,7 +172,7 @@ function Dashboard() {
       gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
       gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
   
-      var tab=[10, 20, 30, 40, 50, 60, 70, 80];
+      var tab=listeSigne;
       var tabLabels=dataSigne;
       
       return {
@@ -188,7 +209,7 @@ function Dashboard() {
       gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
       gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
   
-      var tab=[10, 20, 30, 40, 50, 60, 70, 80];
+      var tab=listeTer;
       var tabLabel=dataTer;
       
       return {
@@ -225,7 +246,7 @@ function Dashboard() {
       gradientFill.addColorStop(0, "rgba(128, 182, 244, 0)");
       gradientFill.addColorStop(1, hexToRGB("#18ce0f", 0.4));
   
-      var tab=[10, 20, 30, 40, 50, 60, 70, 80];
+      var tab=liste;
       var tabLabe=dataNouv;
       
       return {
