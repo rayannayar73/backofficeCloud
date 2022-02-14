@@ -42,7 +42,7 @@ function ListeSignalements() {
   const [compteur, setCompteur] = useState(true);
 
   function Supprimer(id){
-    fetch(`https://projetcloudrayansedraravo.herokuapp.com/ato/signalement/${id}`, {
+    fetch(`http://localhost:8090/ato/signalement/${id}`, {
       "method": "DELETE"
     })
     .then(response => response.json())
@@ -57,7 +57,7 @@ function ListeSignalements() {
 
   useEffect(() => {
     if (compteur){
-    fetch("https://projetcloudrayansedraravo.herokuapp.com/ato/signalement")
+    fetch("http://localhost:8090/ato/signalement")
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -121,13 +121,13 @@ function ListeSignalements() {
                             {(prop.region==null)? <a href={'attribution-signalement-region?id='+prop.id}><i className={"now-ui-icons ui-1_simple-add"} /></a> : prop.region.nom }
                           </td>
                           <td key='type' className="text-right">
-                            {prop.type.nom}
+                            {(prop.type)?prop.type.nom : "..."}
                           </td>
                           <td key='etat' className="text-right">
-                            {prop.etat.nom}
+                            {(prop.etat)?prop.etat.nom : "..."}
                           </td>
                           <td key='dateSignalement' className="text-right">
-                            {dateDebut.getDate()+"-"+(dateDebut.getMonth()+1)+"-"+dateDebut.getFullYear()}
+                            {(dateDebut)?dateDebut.getDate()+"-"+(dateDebut.getMonth()+1)+"-"+dateDebut.getFullYear() : "..."}
                           </td>                          
                           <td key='Modifier'>
                             <a href={'fiche-signalement?id='+prop.id} className="btn btn-sm btn-primary mr-1">Modifier</a>
