@@ -54,7 +54,9 @@ function ListeSignalements() {
       console.log(err);
     });
   }
-
+  
+  function setter(dataType){
+  }
   useEffect(() => {
     if (compteur){
     fetch("http://localhost:8090/ato/signalement")
