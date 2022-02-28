@@ -32,12 +32,13 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Table,
-  Button,
-  Label,
   FormGroup,
   Input,
-  UncontrolledTooltip,
+  Button,
+  Modal,
+  ModalFooter,
+  ModalHeader,
+  ModalBody
 } from "reactstrap";
 
 // core components
@@ -49,6 +50,8 @@ import {
 } from "variables/charts.js";
 
 function Dashboard() {
+
+  const [modalLogin , setModalLogin]= useState(true);
 
   const [dataSigne, setDataSigne] = useState(null);
   const [nombreSigne, setNombreSigne] = useState(null);
@@ -275,6 +278,47 @@ console.log(liste);
   
   return (
     <>
+
+<Modal isOpen={modalLogin} style={{
+          display: 'block', width: 700, padding: 30
+      }}>
+        
+        <ModalHeader>Connexion</ModalHeader>
+      
+      <ModalBody>
+           <p> Login</p>
+           <CardBody>
+                                <Row>
+                                    <Col md="12">
+                                        <FormGroup>
+                                            <label>Email</label>
+                                            <Input
+                                                placeholder="email de l' utilisateur"
+                                                type="text"
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col md="12">
+                                        <FormGroup>
+                                            <label>Mots de passe</label>
+                                            <Input
+                                                placeholder="mots de passe de l' utilisateur"
+                                                type="text"
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                        </CardBody>
+           </ModalBody>
+           <ModalFooter>
+                    <Button color="primary" onClick={()=> setModalLogin(false)}>Valider</Button>
+                </ModalFooter>
+      </Modal>
+
+
+
       <PanelHeader
         size="lg"
         content={
